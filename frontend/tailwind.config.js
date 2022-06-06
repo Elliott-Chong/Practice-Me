@@ -5,6 +5,11 @@ module.exports = {
       fontFamily: {
         poppins: ["Poppins"],
         mono: ["DM mono"],
+        space: ["Space Mono"],
+        karla: ["Karla"],
+      },
+      colors: {
+        "sp-red": "#F6323E",
       },
     },
   },
