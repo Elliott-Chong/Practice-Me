@@ -1,21 +1,17 @@
-import React, { useRef, useState } from "react";
-import "../custom.css";
+import React, { useRef } from "react";
 import { Link } from "react-router-dom";
 
 function Navbar() {
   const hamRef = useRef();
   const ulRef = useRef();
 
-  const [active, setActive] = useState(false);
-
   const toggleMenu = () => {
     hamRef.current.classList.toggle("active");
     ulRef.current.classList.toggle("active");
-    setActive((active) => !active);
   };
 
   return (
-    <nav className="bg-gray-700 md:flex flex-col space-y-4 justify-start items-center py-4 px-8">
+    <nav className="bg-gray-700 fixed top-0 w-full md:flex flex-col md:space-y-0 md:flex-row space-y-4 justify-start items-center py-4 px-8">
       <Link to="/" id="logo" className="text-4xl font-karla font-bold">
         <span className="text-sp-red">practice</span>
         <span className="text-white">Me</span>
@@ -27,17 +23,24 @@ function Navbar() {
         id="ham"
       ></span>
       <ul
+        id="nav-content"
         ref={ulRef}
-        className="md:flex md:space-x-8 text-xl text-white font-bold font-space ml-auto"
+        className="md:flex flex-col md:flex-row md:space-x-8 text-xl text-white font-bold font-space ml-auto"
       >
-        <li className="nav-item">
-          <Link to="/login">Login</Link>
+        <li>
+          <Link className="nav-item" to="/login">
+            Login
+          </Link>
         </li>
-        <li className="nav-item">
-          <Link to="register">Register</Link>
+        <li>
+          <Link className="nav-item" to="register">
+            Register
+          </Link>
         </li>
-        <li className="nav-item">
-          <Link to="practice">Practice</Link>
+        <li>
+          <Link className="nav-item" to="practice">
+            Practice
+          </Link>
         </li>
       </ul>
     </nav>
