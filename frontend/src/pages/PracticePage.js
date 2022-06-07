@@ -2,7 +2,17 @@ import React from "react";
 import axios from "axios";
 import ContentContainer from "../components/ContentContainer";
 import CodeSnippet from "../components/CodeSnippet";
-import { Link } from "react-router-dom";
+
+function TopicBox({ topic }) {
+  return (
+    <div className="topic-box text-center m-2">
+      <input type="checkbox" id={topic} name="topics" />
+      <label htmlFor={topic} className="text-white p-2 rounded-sm ">
+        {topic}
+      </label>
+    </div>
+  );
+}
 
 function PracticePage() {
   const [question, setQuestion] = React.useState({
@@ -51,7 +61,7 @@ function PracticePage() {
   if (!started) {
     return (
       <ContentContainer className="flex justify-center items-center flex-col">
-        <div className="flex shadow-xl flex-col md:w-[25vw] w-[80vw]">
+        <div className="flex shadow-xl flex-col md:w-[40vw] w-[80vw]">
           <div className="bg-gray-900 py-2 px-4 font-space font-bold text-white w-full">
             <h1 className="text-3xl">constructor()</h1>
           </div>
@@ -70,25 +80,22 @@ function PracticePage() {
                 onChange={handleChange}
                 required
                 id="difficulty"
+                value={formData.difficulty}
               >
                 <option value="easy">Easy</option>
                 <option value="hard">Hard</option>
               </select>
             </div>
-            <div className="form-control font-mono flex flex-col">
-              <label className="text-white" htmlFor="topics">
-                Password
-              </label>
-              <input
-                required
-                className="py-1 px-2 shadow-lg"
-                value={formData.password}
-                id="password"
-                onChange={handleChange}
-                type="password"
-                name="password"
-                placeholder="Enter your password..."
-              />
+
+            <div
+              id="topics-container"
+              className="font-mono grid grid-cols-2 md:grid-cols-3 items-center justify-start"
+            >
+              <TopicBox topic="scope" />
+              <TopicBox topic="arrays" />
+              <TopicBox topic="boolean" />
+              <TopicBox topic="do-while" />
+              <TopicBox topic="if-else" />
             </div>
             <button
               type="submit"
