@@ -1,7 +1,5 @@
 const initialState = {
-  alerts: [],
   user: null,
-  loading: false,
   nav_height: null,
 };
 

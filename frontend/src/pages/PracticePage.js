@@ -1,75 +1,21 @@
 import React from "react";
-import axios from "axios";
 import ContentContainer from "../components/ContentContainer";
 import CodeSnippet from "../components/CodeSnippet";
-
-function TopicBox({ topic, handleChange }) {
-  return (
-    <div className="topic-box grid items-stretch shadow-lg text-center">
-      <input
-        type="checkbox"
-        id={topic}
-        value={topic}
-        onChange={handleChange}
-        name="topics"
-      />
-      <label
-        htmlFor={topic}
-        className="text-white font-space p-1 border-2 rounded-sm "
-      >
-        {topic}
-      </label>
-    </div>
-  );
-}
+import { useQuery } from "react-query";
+import axios from "axios";
+import { useQuestionsContext } from "../questionsContext";
+import { useHistory } from "react-router-dom";
 
 function PracticePage() {
-  const [question, setQuestion] = React.useState({
-    question: null,
-    answer: null,
-  });
-
-  const [formData, setFormData] = React.useState({
-    difficulty: "",
-    topics: [],
-  });
-
+  const { state } = useQuestionsContext();
+  const codeRef = React.useRef();
+  const inputRef = React.useRef();
+  const history = useHistory();
   React.useEffect(() => {
-    console.log(formData);
-  }, [formData]);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
-
-  const handleChange = (e) => {
-    const count = (arr, elt) => {
-      let num = 0;
-      for (let i of arr) {
-        if (i === elt) num++;
-      }
-      return num;
-    };
-    if (e.target.name === "topics") {
-      if (count(formData.topics, e.target.value) > 0) {
-        setFormData({
-          ...formData,
-          [e.target.name]: formData.topics.filter(
-            (topic) => topic !== e.target.value
-          ),
-        });
-      } else {
-        setFormData({
-          ...formData,
-          [e.target.name]: [...formData.topics, e.target.value],
-        });
-      }
-    } else {
-      setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (!state.practice.started) {
+      history.push("/practice-config");
     }
-  };
-
-  const [started, setStarted] = React.useState(false);
+  }, [history, state]);
   const fetchQuestion = async (difficulty, topics) => {
     const config = {
       headers: {
@@ -85,81 +31,86 @@ function PracticePage() {
       body,
       config
     );
-    setQuestion({
-      question: response.data.question,
-      answer: response.data.answer,
-    });
+    return response.data;
   };
-  React.useEffect(() => {
-    fetchQuestion();
-  }, []);
 
-  if (!started) {
-    return (
-      <ContentContainer className="flex justify-center items-center flex-col">
-        <div className="flex shadow-xl flex-col md:w-[30vw] md:min-w-[500px] w-[80vw]">
-          <div className="bg-gray-900 py-2 px-4 font-space font-bold text-white w-full">
-            <h1 className="text-3xl">constructor()</h1>
-          </div>
+  const { data, status, refetch } = useQuery("question", fetchQuestion, {
+    refetchOnWindowFocus: false,
+    refetchIntervalInBackground: false,
+    // enabled: false,
+  });
 
-          <form
-            className="flex flex-col p-5 md:text-lg bg-gray-700 gap-5"
-            onSubmit={handleSubmit}
-          >
-            <div className="form-control font-mono flex flex-col">
-              <label className="text-white" htmlFor="difficulty">
-                this.difficulty =
-              </label>
-              <select
-                name="difficulty"
-                className="py-1 px-2 shadow-lg"
-                onChange={handleChange}
-                required
-                id="difficulty"
-                value={formData.difficulty}
-              >
-                <option value="easy">Easy</option>
-                <option value="hard">Hard</option>
-              </select>
-            </div>
-            <div>
-              <p className="text-white font-space inline-block mb-2">
-                this.topics = [
-              </p>
-              <div
-                id="topics-container"
-                className="font-mono grid grid-cols-2 md:grid-cols-3 gap-2 items-center justify-start"
-              >
-                <TopicBox handleChange={handleChange} topic="scope" />
-                <TopicBox handleChange={handleChange} topic="arrays" />
-                <TopicBox handleChange={handleChange} topic="boolean" />
-                <TopicBox handleChange={handleChange} topic="do-while" />
-                <TopicBox handleChange={handleChange} topic="if-else" />
-                <TopicBox handleChange={handleChange} topic="incre-decre" />
-                <TopicBox handleChange={handleChange} topic="for-loop" />
-                <TopicBox handleChange={handleChange} topic="while-loop" />
-                <TopicBox handleChange={handleChange} topic="switch" />
-                <TopicBox handleChange={handleChange} topic="shorthand" />
-              </div>
-              <span className="text-white mt-2 inline-block font-space">
-                ];
-              </span>
-            </div>
-            <button
-              type="submit"
-              className="bg-blue-600 hover:bg-blue-800 font-space transition-all text-white self-start shadow-lg py-1 px-2"
-            >
-              this.begin()
-            </button>
-          </form>
-        </div>
-      </ContentContainer>
-    );
-  }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (
+      answer.toString().toLowerCase() === data.answer.toString().toLowerCase()
+    ) {
+      setStat((stat) => {
+        return { all: stat.all + 1, correct: stat.correct + 1 };
+      });
+      setCorrect(true);
+    } else {
+      setStat({ ...stat, all: stat.all + 1 });
+      setCorrect(false);
+    }
+    setAnswer("");
+    inputRef.current.focus();
+    setTimeout(() => {
+      setCorrect("neutral");
+    }, 1000);
+    refetch();
+  };
+
+  const [stat, setStat] = React.useState({
+    all: 0,
+    correct: 0,
+  });
+
+  const [answer, setAnswer] = React.useState("");
+  const [correct, setCorrect] = React.useState("neutral");
 
   return (
     <ContentContainer className="flex justify-center items-center flex-col">
-      <CodeSnippet question={question.question} />
+      <h1 className="text-white text-3xl font-karla font-bold">
+        {stat.correct}/{stat.all}
+        <span className="ml-4 text-2xl font-normal font-mono text-yellow-300">
+          ({stat.all !== 0 ? ((stat.correct / stat.all) * 100).toFixed(2) : 0}%)
+        </span>
+      </h1>
+      <div className="w-[85vw] max-w-[500px]">
+        <CodeSnippet
+          correct={correct}
+          ref={codeRef}
+          question={status !== "loading" ? data.question : "loading"}
+        />
+        <form
+          onSubmit={handleSubmit}
+          className="flex mt-4 font-space items-center justify-center gap-3"
+        >
+          <input
+            ref={inputRef}
+            value={answer}
+            onChange={(e) => {
+              setAnswer(e.target.value);
+            }}
+            type="text"
+            className="py-1 px-2 text-white bg-gray-900 border-2"
+            autoCapitalize="off"
+            autoComplete="off"
+            autoCorrect="off"
+            autoFocus={true}
+            name="answer"
+            placeholder="output"
+            id="answer"
+          />
+          <button
+            type="submit"
+            className="text-white bg-blue-600 hover:bg-blue-800 transition-all py-1 px-2"
+          >
+            next()
+          </button>
+        </form>
+      </div>
     </ContentContainer>
   );
 }

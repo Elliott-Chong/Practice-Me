@@ -5,13 +5,20 @@ import App from "./App";
 import AppContext from "./context";
 import { BrowserRouter as Router } from "react-router-dom";
 import axios from "axios";
-axios.defaults.baseURL = "http://localhost:5000";
+import { ReactQueryDevtools } from "react-query/devtools";
+import { QueryClient, QueryClientProvider } from "react-query";
 
+axios.defaults.baseURL = "http://192.168.50.74:5000";
+
+const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Router>
-    <AppContext>
-      <App />
-    </AppContext>
+    <QueryClientProvider client={queryClient}>
+      <AppContext>
+        <App />
+        <ReactQueryDevtools initialIsOpen={false} />
+      </AppContext>
+    </QueryClientProvider>
   </Router>
 );

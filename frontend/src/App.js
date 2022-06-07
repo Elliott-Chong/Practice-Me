@@ -3,9 +3,11 @@ import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
 import { Switch, Route } from "react-router-dom";
 import RegisterPage from "./pages/RegisterPage";
+import PracticePage from "./pages/PracticePage";
+import QuestionsContext from "./questionsContext";
 import "./css/custom.css";
 import React from "react";
-import PracticePage from "./pages/PracticePage";
+import PracticeConfigPage from "./pages/PracticeConfigPage";
 import { useGlobalContext } from "./context";
 
 function App() {
@@ -26,8 +28,14 @@ function App() {
           <Route path="/" exact component={HomePage} />
           <Route path="/login" exact component={LoginPage} />
           <Route path="/register" exact component={RegisterPage} />
-          <Route path="/practice" exact component={PracticePage} />
-          {/* <Route path="/compete" exact component={PracticePage} /> */}
+          <QuestionsContext>
+            <Route
+              path="/practice-config"
+              exact
+              component={PracticeConfigPage}
+            />
+            <Route path="/practice" exact component={PracticePage} />
+          </QuestionsContext>
         </Switch>
       </main>
     </>

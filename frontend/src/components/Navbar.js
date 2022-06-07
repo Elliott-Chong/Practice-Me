@@ -38,7 +38,7 @@ function Navbar() {
           </Link>
         </li>
         <li>
-          <Link className="nav-item" onClick={toggleMenu} to="/practice">
+          <Link className="nav-item" onClick={toggleMenu} to="/practice-config">
             Practice
           </Link>
         </li>
