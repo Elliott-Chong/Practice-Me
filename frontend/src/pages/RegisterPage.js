@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import ContentContainer from "../components/ContentContainer";
 
 function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -18,17 +19,14 @@ function RegisterPage() {
     e.preventDefault();
   };
   return (
-    <main
-      id="container"
-      className="flex min-h-screen pt-16 justify-center flex-col items-center"
-    >
-      <div className="flex flex-col">
-        <div className="bg-gray-700 py-2 px-4 font-space font-bold text-white w-full">
+    <ContentContainer className="flex flex-col justify-center items-center">
+      <div className="flex flex-col md:w-[25vw] w-[80vw] shadow-xl">
+        <div className="bg-gray-900 py-2 px-4 font-space font-bold text-white w-full">
           <h1 className="text-3xl">Register</h1>
         </div>
 
         <form
-          className="flex flex-col shadow-xl p-5 md:text-lg bg-gray-500 gap-5"
+          className="flex flex-col p-5 md:text-lg bg-gray-700 gap-5"
           onSubmit={handleSubmit}
         >
           <div className="form-control font-mono flex flex-col">
@@ -43,10 +41,10 @@ function RegisterPage() {
               type="email"
               required
               name="email"
-              placeholder="Enter your email"
+              placeholder="Enter your iChat email"
             />
           </div>
-          <div className="form-control font-mono w-[20vw] flex flex-col">
+          <div className="form-control font-mono flex flex-col">
             <label className="text-white" htmlFor="password">
               Password
             </label>
@@ -109,7 +107,7 @@ function RegisterPage() {
           </div>
           <button
             type="submit"
-            className="bg-blue-600 font-karla text-white self-start shadow-lg py-1 px-2"
+            className="bg-blue-600 hover:bg-blue-800 transition-all font-karla text-white self-start shadow-lg py-1 px-2"
           >
             Register
           </button>
@@ -121,7 +119,7 @@ function RegisterPage() {
           </p>
         </form>
       </div>
-    </main>
+    </ContentContainer>
   );
 }
 

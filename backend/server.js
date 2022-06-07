@@ -11,7 +11,8 @@ app.get("/", (req, res) => {
   res.send("practiceMe server running");
 });
 
-app.use("/api/arraybasic", require("./routes/arraybasic"));
+app.use("/api/questions", require("./routes/questions"));
+app.use("/api/auth", require("./routes/auth"));
 
 app.listen(PORT || process.env.PORT, () => {
   console.log(`Server running on http://192.168.50.74:${PORT}`);
