@@ -62,15 +62,15 @@
   --webkit-appearance: none;
 }
 .topic-box label:hover {
-  background-color: gray;
-}
-.topic-box input:checked label:hover {
-  background-color: var(--sp-red);
-  opacity: 0.2;
+  background-color: rgb(78, 78, 78);
 }
 
 .topic-box input:checked + label {
-  background-color: var(--sp-red);
+  background-color: #2563EB;
+color:white
+}
+.topic-box input:checked + label:hover {
+opacity: .7;
 }
 
 @media (max-width: 640px) {
@@ -80,4 +80,5 @@
   #nav-content.active {
     display: flex;
   }
+  
 }

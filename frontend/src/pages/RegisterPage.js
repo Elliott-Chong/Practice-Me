@@ -20,7 +20,7 @@ function RegisterPage() {
   };
   return (
     <ContentContainer className="flex flex-col justify-center items-center">
-      <div className="flex flex-col md:w-[25vw] w-[80vw] shadow-xl">
+      <div className="flex flex-col md:w-[25vw] w-[80vw] md:min-w-[400px] shadow-xl">
         <div className="bg-gray-900 py-2 px-4 font-space font-bold text-white w-full">
           <h1 className="text-3xl">Register</h1>
         </div>

@@ -17,7 +17,7 @@ function LoginPage() {
   };
   return (
     <ContentContainer className="flex flex-col justify-center items-center">
-      <div className="flex shadow-xl flex-col md:w-[25vw] w-[80vw]">
+      <div className="flex shadow-xl flex-col md:w-[25vw] md:min-w-[400px] w-[80vw]">
         <div className="bg-gray-900 py-2 px-4 font-space font-bold text-white w-full">
           <h1 className="text-3xl">Login</h1>
         </div>
