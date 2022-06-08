@@ -3,6 +3,19 @@ import ContentContainer from "../components/ContentContainer";
 import { useHistory } from "react-router-dom";
 import { useQuestionsContext } from "../questionsContext";
 
+const all_topics = [
+  "array",
+  "boolean",
+  "scope",
+  "incre-decre",
+  "do-while",
+  "for-loop",
+  "while-loop",
+  "if-else",
+  "switch-case",
+  "shorthand",
+];
+
 function TopicBox({ topic, handleChange }) {
   return (
     <div className="topic-box grid items-stretch shadow-lg text-center">
@@ -27,14 +40,15 @@ function PracticeConfigPage() {
   const history = useHistory();
   const { dispatch } = useQuestionsContext();
   const [formData, setFormData] = React.useState({
-    difficulty: "",
+    difficulty: "easy",
     topics: [],
   });
   React.useEffect(() => {
     dispatch({
-      type: "update_start_status",
+      type: "update_practice_start_status",
       payload: false,
     });
+    dispatch({ type: "reset_practice_config" });
   }, [dispatch]);
 
   const handleSubmit = (e) => {
@@ -44,7 +58,7 @@ function PracticeConfigPage() {
       payload: { difficulty: formData.difficulty, topics: formData.topics },
     });
     dispatch({
-      type: "update_start_status",
+      type: "update_practice_start_status",
       payload: true,
     });
     history.push("/practice");
@@ -112,16 +126,15 @@ function PracticeConfigPage() {
               id="topics-container"
               className="font-mono grid grid-cols-2 md:grid-cols-3 gap-2 items-center justify-start"
             >
-              <TopicBox handleChange={handleChange} topic="scope" />
-              <TopicBox handleChange={handleChange} topic="arrays" />
-              <TopicBox handleChange={handleChange} topic="boolean" />
-              <TopicBox handleChange={handleChange} topic="do-while" />
-              <TopicBox handleChange={handleChange} topic="if-else" />
-              <TopicBox handleChange={handleChange} topic="incre-decre" />
-              <TopicBox handleChange={handleChange} topic="for-loop" />
-              <TopicBox handleChange={handleChange} topic="while-loop" />
-              <TopicBox handleChange={handleChange} topic="switch" />
-              <TopicBox handleChange={handleChange} topic="shorthand" />
+              {all_topics.map((topic) => {
+                return (
+                  <TopicBox
+                    key={topic}
+                    handleChange={handleChange}
+                    topic={topic}
+                  />
+                );
+              })}
             </div>
             <span className="text-white mt-2 inline-block font-space">];</span>
           </div>

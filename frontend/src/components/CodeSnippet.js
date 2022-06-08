@@ -8,7 +8,7 @@ function CodeSnippet({ question, correct }) {
       customStyle={{
         width: "100%",
         boxShadow: `0 0 10px ${
-          correct === true ? "green" : correct === "neutral" ? "" : "red"
+          correct === true ? "#00ff00" : correct === "neutral" ? "" : "red"
         }`,
       }}
       style={twilight}

@@ -1,13 +1,48 @@
 const router = require("express").Router();
-const cls = require("../../FunctionScopeQnsClass");
-const template = new cls();
 
-router.post("/functionscope", (req, res) => {
-  let { topics, difficulty } = req.body;
-  let qn = template.generateQuestion();
-  let question = qn[0];
-  let answer = template.generateAnswer(qn[1]);
-  res.json({ question, answer });
+const getQuestionTemplate = (topic) => {
+  let template;
+  switch (topic) {
+    case "scope":
+      template = require("../../FunctionScopeQnsClass");
+      break;
+    case "boolean":
+      template = require("../../BooleanQnsClass");
+      break;
+    case "incre-decre":
+      template = require("../../PostPreIncreDecreQnsClass");
+      break;
+    case "do-while":
+      template = require("../../RepetitionDoWhileQnsClass");
+      break;
+    case "for-loop":
+      template = require("../../RepetitionForQnsClass");
+      break;
+    case "if-else":
+      template = require("../../SelectionIfElseQnsClass");
+      break;
+    case "switch-case":
+      template = require("../../SelectionSwitchQnsClass");
+      break;
+    case "shorthand":
+      template = require("../../ShorthandQnsClass");
+      break;
+  }
+  return new template();
+};
+
+router.post("/", (req, res) => {
+  let { topic, difficulty } = req.body;
+
+  try {
+    let template = getQuestionTemplate(topic);
+    let qn = template.generateQuestion();
+    let question = qn[0];
+    let answer = template.generateAnswer(qn[1]);
+    res.json({ question, answer });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send("Server error in @POST /api/questions");
+  }
 });
-
 module.exports = router;
