@@ -8,7 +8,7 @@ import axios from "axios";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { QueryClient, QueryClientProvider } from "react-query";
 
-axios.defaults.baseURL = "http://192.168.50.74:5000";
+axios.defaults.baseURL = "http://localhost:5000";
 
 const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(document.getElementById("root"));

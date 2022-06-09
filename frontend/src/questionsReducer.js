@@ -1,14 +1,12 @@
 const initialState = {
   practice: {
     started: false,
-    difficulty: null,
-    topics: null,
+    difficulty: "easy",
+    topics: [],
     question: null,
     answer: null,
-    stats: {
-      correct: 0,
-      all: 0,
-    },
+    currentTopic: null,
+    stats: {},
   },
 };
 
@@ -31,9 +29,44 @@ const reducer = (state, action) => {
           ...state.practice,
           question: payload.question,
           answer: payload.answer,
+          currentTopic: payload.currentTopic,
         },
       };
     case "update_practice_stats":
+      // payload: {correct: true, topic: 'if-else'}
+      const { correct, topic } = payload;
+      const { practice } = state;
+      if (practice.stats.hasOwnProperty(topic)) {
+        console.log("key exists");
+        let updatedAll = practice.stats[topic].all + 1;
+        let updatedCorrect = correct
+          ? practice.stats[topic].correct + 1
+          : practice.stats[topic].correct;
+
+        return {
+          ...state,
+          practice: {
+            ...practice,
+            stats: {
+              ...practice.stats,
+              [topic]: { correct: updatedCorrect, all: updatedAll },
+            },
+          },
+        };
+      } else {
+        console.log("key no exist yet");
+        let updatedCorrect = correct ? 1 : 0;
+        return {
+          ...state,
+          practice: {
+            ...practice,
+            stats: {
+              ...practice.stats,
+              [topic]: { correct: updatedCorrect, all: 1 },
+            },
+          },
+        };
+      }
 
     default:
       return state;

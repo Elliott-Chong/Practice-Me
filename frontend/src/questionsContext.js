@@ -9,6 +9,11 @@ const Context = ({ children }) => {
   useEffect(() => {
     console.log(state);
   }, [state]);
+  console.log(state);
+  let currentTopic =
+    state.practice?.topics[
+      Math.floor(Math.random() * state.practice.topics?.length)
+    ];
   const fetchQuestion = React.useCallback(async () => {
     const config = {
       headers: {
@@ -18,18 +23,18 @@ const Context = ({ children }) => {
     const body = JSON.stringify({
       difficulty: state.practice.difficulty,
 
-      topic:
-        state.practice?.topics[
-          Math.floor(Math.random() * state.practice.topics?.length)
-        ],
+      topic: currentTopic,
     });
     try {
       const response = await axios.post(`/api/questions/`, body, config);
-      dispatch({ type: "set_practice_question", payload: response.data });
+      dispatch({
+        type: "set_practice_question",
+        payload: { ...response.data, currentTopic },
+      });
     } catch (error) {
       console.error(error.message);
     }
-  }, [state.practice.difficulty, state.practice.topics]);
+  }, [state.practice.difficulty, currentTopic]);
 
   return (
     <QuestionsContext.Provider

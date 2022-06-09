@@ -5,7 +5,7 @@ import { useQuestionsContext } from "../questionsContext";
 import { useHistory } from "react-router-dom";
 
 function PracticePage() {
-  const { state, fetchQuestion } = useQuestionsContext();
+  const { state, dispatch, fetchQuestion } = useQuestionsContext();
   const inputRef = React.useRef();
   const history = useHistory();
 
@@ -26,9 +26,17 @@ function PracticePage() {
       setStat((stat) => {
         return { all: stat.all + 1, correct: stat.correct + 1 };
       });
+      dispatch({
+        type: "update_practice_stats",
+        payload: { correct: true, topic: state.practice.currentTopic },
+      });
       setCorrect(true);
     } else {
       setStat({ ...stat, all: stat.all + 1 });
+      dispatch({
+        type: "update_practice_stats",
+        payload: { correct: false, topic: state.practice.currentTopic },
+      });
       setCorrect(false);
     }
     setAnswer("");
@@ -40,8 +48,14 @@ function PracticePage() {
   };
 
   const [stat, setStat] = React.useState({
-    all: 0,
-    correct: 0,
+    all: Object.entries(state.practice.stats).reduce(
+      (partialSum, a) => partialSum + a[1].all,
+      0
+    ),
+    correct: Object.entries(state.practice.stats).reduce(
+      (partialSum, a) => partialSum + a[1].correct,
+      0
+    ),
   });
 
   const [answer, setAnswer] = React.useState("");
@@ -52,7 +66,11 @@ function PracticePage() {
       <h1 className="text-white text-3xl font-karla font-bold">
         {stat.correct}/{stat.all}
         <span className="ml-4 text-2xl font-normal font-mono text-yellow-300">
-          ({stat.all !== 0 ? ((stat.correct / stat.all) * 100).toFixed(2) : 0}%)
+          (
+          {stat.all === 0
+            ? "0.00"
+            : ((stat.correct / stat.all) * 100).toFixed(2)}
+          )%
         </span>
       </h1>
       <div className="w-[85vw] max-w-[500px]">
