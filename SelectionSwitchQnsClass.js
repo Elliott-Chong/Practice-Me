@@ -14,8 +14,8 @@
       console.log(output);
 */
 class SwitchSelectionTemp {
-    constructor(difficulty) {
-        this.question = this.generateQuestion(difficulty);
+    constructor() {
+        this.question = this.generateQuestion();
         this.answer = this.generateAnswer(this.question[1]);
         this.category = ['switch'];
     }
@@ -39,7 +39,7 @@ class SwitchSelectionTemp {
         [0] - string concatenated switch statement
         [1] - string concatenated switch statement with variable for evaluation
     */
-    generateQuestion(difficulty) {
+    generateQuestion() {
         var alpha = this.generateAlphabet();
         var caseValue = Math.floor(Math.random() * 5);
         var query = `\tvar ${alpha} = ${caseValue};\n\tvar output = `;
@@ -47,19 +47,9 @@ class SwitchSelectionTemp {
         var query2 = '// switch \n';
         var numCases;
 
-        if (difficulty == '1' || Math.floor(Math.random() * 10) < 3) {
-            // expected output is numerical
-            query += `${output};\n\n\tswitch (${alpha}) {`;
-            numCases = this.generateNoOfCase(2); // either 2 or 3 cases
-        } else {
-            // expected output is string
-            if (Math.floor(Math.random() * 10) < 4) {
-                query += `'';\n\n\tswitch (${alpha}) {`;
-            } else {
-                query += `'${output}';\n\n\tswitch (${alpha}) {`;
-            }
-            numCases = (Math.floor(Math.random() * 10) % 3 != 0) ? this.generateNoOfCase(4) : this.generateNoOfCase(3); // either 3, 4 or 5 cases
-        }
+        // expected output is numerical
+        query += `${output};\n\n\tswitch (${alpha}) {`;
+        numCases = this.generateNoOfCase(2); // either 2 or 3 cases
 
         var switchCaseValue = Math.floor(Math.random() * numCases);
         for (let i = 0; i < numCases; i++) {

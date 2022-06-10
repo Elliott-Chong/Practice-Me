@@ -10,8 +10,8 @@
       }
 */
 class ForRepetitionTemp {
-    constructor(difficulty) {
-        this.question = this.generateQuestion(difficulty);
+    constructor() {
+        this.question = this.generateQuestion();
         this.answer = this.generateAnswer(this.question[1]);
         this.category = ['for loop'];
     }
@@ -35,7 +35,7 @@ class ForRepetitionTemp {
         [0] - string concatenated for loop question
         [1] - string concatenated for loop question with counter for evaluation
     */
-    generateQuestion(difficulty) {
+    generateQuestion() {
         var alpha = this.generateAlphabet();
         var small = Math.floor(Math.random() * 5);
         var big = Math.floor(Math.random() * 10) + 15;
@@ -73,18 +73,8 @@ class ForRepetitionTemp {
         }
         query2 += query;
         // generate body of for loop
-        if (difficulty == '2' && this.generateRnd10() > 5) {
-            var modulasAmt = Math.floor(Math.random() * 4) + 2;
-            var modulasOutput = Math.floor(Math.random() * 3);
-            query += `\t    if (${alpha} % ${modulasAmt} == ${modulasOutput} ) {\n\t`;
-            query += `\tconsole.log( );\n\t    }\n\t}`
-            query2 += `    if (${alpha} % ${modulasAmt} == ${modulasOutput} ) {\n\t`;
-            query2 += `counter++;}\n}\ncounter;`
-
-        } else {
-            query += `\t    console.log( );\n\t}`
-            query2 += `counter++;}\ncounter;`
-        }
+        query += `\t    console.log( );\n\t}`
+        query2 += `counter++;}\ncounter;`
         return [query, query2];
     }
 

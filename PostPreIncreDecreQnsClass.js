@@ -5,8 +5,8 @@
       console.log( i );
 */
 class PostPreIncreDecreOperatorTemplate {
-    constructor(difficulty) {
-        this.question = this.generateQuestion(difficulty);
+    constructor() {
+        this.question = this.generateQuestion();
         this.answer = this.generateAnswer(this.question[1]);
         this.category = ['post-increment', 'pre-increment', 'post-decrement', 'pre-decrement'];
     }
@@ -43,15 +43,9 @@ class PostPreIncreDecreOperatorTemplate {
     /*
         Return an array of 'x' amount of post/pre-increment/decrement values
     */
-    generateNoOfValues(alpha, difficulty) {
-        var rnd = Math.floor(Math.random() * 10);
+    generateNoOfValues(alpha) {
         var arrOptions = [], x;
-        if (difficulty == '1') {
-            x = 2;
-        } else {
-            x = (rnd % 3 == 0) ? 4 : 3;
-        }
-
+        x = 2;
         for (var i = 0; i < x; i++) {
             arrOptions.push(this.generatePPINValue(alpha));
         }
@@ -63,9 +57,9 @@ class PostPreIncreDecreOperatorTemplate {
         [0] - string concatenated PPID question
         [1] - string concatenated PPID question with variable for evaluation
     */
-    generateQuestion(difficulty) {
+    generateQuestion() {
         var alpha = this.generateAlphabet();
-        var values = this.generateNoOfValues(alpha, difficulty);
+        var values = this.generateNoOfValues(alpha);
         var query = `\tvar ${alpha} = ${this.generateRnd5()};\n\t${alpha} = `;
         var question = values[0];
         for (var i = 1; i < values.length; i++) {

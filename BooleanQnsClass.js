@@ -5,8 +5,8 @@
     - ! ( false && true && false || true )
 */
 class BooleanOperatorTemplate {
-    constructor(difficulty) {
-        this.question = this.generateQuestion(difficulty);
+    constructor() {
+        this.question = this.generateQuestion();
         this.answer = this.generateAnswer(this.question);
         this.category = ['boolean'];
     }
@@ -22,15 +22,10 @@ class BooleanOperatorTemplate {
     /*
         Return an array of 'x' amount of boolean value
     */
-    generateNoOfValues(difficulty) {
+    generateNoOfValues() {
         var rnd = Math.floor(Math.random() * 10);
         var arrOptions = [], x;
-        if (difficulty == '1') {
-            x = (rnd % 3 == 0) ? 2 : 3;
-        } else {
-            x = (rnd % 2 == 0) ? 4 : 5;
-        }
-
+        x = (rnd % 3 == 0) ? 2 : 3;    
         for (var i = 0; i < x; i++) {
             arrOptions.push(this.generateBooleanValue());
         }
@@ -40,8 +35,8 @@ class BooleanOperatorTemplate {
     /*
         Return a string concatenated question
     */
-    generateQuestion(difficulty) {
-        var values = this.generateNoOfValues(difficulty);
+    generateQuestion() {
+        var values = this.generateNoOfValues();
         var query = values[0];
         for (var i = 1; i < values.length; i++) {
             if (Math.floor(Math.random() * 10) % 2 == 0) {
@@ -49,10 +44,6 @@ class BooleanOperatorTemplate {
             } else {
                 query += ' || ' + values[i];
             }
-        }
-
-        if (difficulty == '2' && Math.floor(Math.random() * 10) >= 6) {
-            query = ' ! ( ' + query + ' )';
         }
         return query;
     }
