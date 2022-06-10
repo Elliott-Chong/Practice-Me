@@ -27,6 +27,9 @@ const getQuestionTemplate = (topic) => {
     case "shorthand":
       template = require("../../ShorthandQnsClass");
       break;
+    case "array":
+      template = require("../../ArrayBasicQnsClass");
+      break;
   }
   return new template();
 };
