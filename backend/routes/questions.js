@@ -32,6 +32,7 @@ const getQuestionTemplate = (topic) => {
 };
 
 router.post("/", (req, res) => {
+  // this route handles the route '/api/questions'
   let { topic, difficulty } = req.body;
 
   try {
