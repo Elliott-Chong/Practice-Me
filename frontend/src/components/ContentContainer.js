@@ -6,7 +6,8 @@ function ContentContainer(props) {
     state: { nav_height },
   } = useGlobalContext();
   React.useEffect(() => {
-    containerRef.current.style.height = window.innerHeight - nav_height + "px";
+    containerRef.current.style.minHeight =
+      window.innerHeight - nav_height + "px";
   }, [nav_height]);
   const containerRef = React.useRef();
   return (
