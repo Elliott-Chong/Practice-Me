@@ -1,11 +1,12 @@
 const initialState = {
   practice: {
     started: false,
+    ended: false,
+    currentTopic: null,
+    question: null,
     difficulty: "easy",
     topics: [],
-    question: null,
     answer: null,
-    currentTopic: null,
     stats: {},
   },
 };
@@ -17,6 +18,8 @@ const reducer = (state, action) => {
       return { ...state, practice: { ...state.practice, ...payload } };
     case "update_practice_start_status":
       return { ...state, practice: { ...state.practice, started: payload } };
+    case "update_practice_end_status":
+      return { ...state, practice: { ...state.practice, ended: payload } };
     case "reset_practice_config":
       return {
         ...state,

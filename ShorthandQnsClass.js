@@ -4,13 +4,6 @@
     - shorthand operations (+=, -=, *=, %=)
 */
 class ShorthandTemp {
-  constructor() {
-    this.question = this.generateShorthandQns();
-    this.answer = this.generateAnswer(this.question[1]);
-
-    this.category = ["shorthand"];
-  }
-
   /*
        Return a random alphabet
    */
@@ -40,9 +33,9 @@ class ShorthandTemp {
     // performing shorthand operation
     var rnd = this.generateRnd(10);
     query +=
-        rnd < 6
-          ? `${alpha} += ${this.generateRnd(8)}`
-          : `${alpha} -= ${this.generateRnd(6)}`;
+      rnd < 6
+        ? `${alpha} += ${this.generateRnd(8)}`
+        : `${alpha} -= ${this.generateRnd(6)}`;
 
     // performing arithmetic operation (+, -, *, %)
     query +=

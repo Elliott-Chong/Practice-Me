@@ -9,7 +9,6 @@ const Context = ({ children }) => {
   useEffect(() => {
     console.log(state);
   }, [state]);
-  console.log(state);
   let currentTopic =
     state.practice?.topics[
       Math.floor(Math.random() * state.practice.topics?.length)

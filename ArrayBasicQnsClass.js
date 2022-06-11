@@ -8,6 +8,7 @@
     - basic mathematical operations among values in array
 */
 class ArrayBasicTemp {
+<<<<<<< HEAD
   constructor() {
     // length related question/ answer
     this.question1 = this.generateGetLengthQns();
@@ -27,6 +28,13 @@ class ArrayBasicTemp {
 
     this.category = ["array"];
   }
+=======
+    constructor() {
+        this.question = this.generateQuestion();
+        this.answer = this.generateAnswer(this.question[1]);
+        this.category = ['array'];
+    }
+>>>>>>> 90e9dee40cb03222f89f8da5d7d5cd0a4a185b83
 
   /*
        Return a random alphabet
@@ -194,16 +202,20 @@ class ArrayBasicTemp {
         Math.random() * 10
       )} );`;
       query2 = query + `\n// push `;
+    }}
+
+    // Generate random array questions
+    generateQuestion(){
+        let random = Math.floor(Math.random()*4);
+        let arrayOfQuestions = [
+            this.generateGetLengthQns(),
+            this.generateGetIndexQns(),
+            this.generateIndexOperationQns(),
+            this.generateArrayMethodsQns()
+        ]
+        return arrayOfQuestions[random];
     }
 
-    query2 += `\n${alpha}`;
-    query += `\n\tconsole.log( ${alpha} );`;
-    return [query, query2];
-  }
-
-  /*
-        Return the evaulation of the question
-    */
   generateAnswer(question) {
     return eval(question);
   }
