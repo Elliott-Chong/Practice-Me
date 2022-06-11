@@ -8,7 +8,7 @@
       console.log( a );
 */
 class FunctionScopeTemplate {
-    constructor(difficulty) {
+    constructor() {
         this.question = this.generateQuestion(/*difficulty*/);
         this.answer = this.generateAnswer(this.question[1]);
         this.category = ['function'];

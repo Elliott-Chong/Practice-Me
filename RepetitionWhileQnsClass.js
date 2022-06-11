@@ -7,8 +7,8 @@
       console.log( count );
 */
 class WhileRepetitionTemp {
-    constructor(difficulty) {
-        this.question = this.generateQuestion(difficulty);
+    constructor() {
+        this.question = this.generateQuestion();
         this.answer = this.generateAnswer(this.question[1]);
         this.category = ['while loop'];
     }
@@ -32,46 +32,22 @@ class WhileRepetitionTemp {
         [0] - string concatenated while loop question
         [1] - string concatenated while loop question with counter for evaluation
     */
-    generateQuestion(difficulty) {
+    generateQuestion() {
         var alpha = this.generateAlphabet();
         var small = Math.floor(Math.random() * 5);
         var big = Math.floor(Math.random() * 10) + 15;
         var query = `\n\tvar ${alpha} = `;
         var query2 = `// while `;
 
-        if (difficulty == '1' || this.generateRnd10() % 4 == 0) {
-            if (this.generateRnd10() % 2 == 0) {
-                // Increment while Loop
-                var sign = (this.generateRnd10() % 2 == 0) ? '<' : '<=';
-                query += `${small};\n\twhile ( ${alpha} ${sign} ${big} ) {\n\t    ${alpha}++;\n\t}`;
+        if (this.generateRnd10() % 2 == 0) {
+            // Increment while Loop
+            var sign = (this.generateRnd10() % 2 == 0) ? '<' : '<=';
+            query += `${small};\n\twhile ( ${alpha} ${sign} ${big} ) {\n\t    ${alpha}++;\n\t}`;
 
-            } else {
-                // Decrement while Loop
-                var sign = (this.generateRnd10() % 2 == 0) ? '>' : '>=';
-                query += `${big};\n\twhile ( ${alpha} ${sign} ${small} ) {\n\t    ${alpha}--;\n\t}`;
-            }
-        } else if (difficulty == '2') {
-            var rnd = this.generateRnd10();
-            if (this.generateRnd10() % 2 == 0) {
-                // Increment while Loop
-                var sign = (rnd < 3) ? '<=' : (rnd < 5) ? '<' : (rnd < 9) ? '!=' : '==';
-                query += `${small};\n\twhile ( ${alpha} ${sign} ${big} ) {\n\t    ${alpha}`;
-                if (this.generateRnd10() % 4 == 0) {
-                    query += `++;\n\t}`;
-                } else {
-                    query += ` += ${Math.floor(Math.random() * 4) + 1};\n\t}`;
-                }
-
-            } else {
-                // Decrement while Loop
-                var sign = (rnd < 3) ? '>=' : (rnd < 5) ? '>' : (rnd < 9) ? '!=' : '==';
-                query += `${big};\n\twhile ( ${alpha} ${sign} ${small} ) {\n\t    ${alpha}`;
-                if (this.generateRnd10() % 4 == 0) {
-                    query += `--;\n\t}`;
-                } else {
-                    query += ` -= ${Math.floor(Math.random() * 4) + 1};\n\t}`;
-                }
-            }
+        } else {
+            // Decrement while Loop
+            var sign = (this.generateRnd10() % 2 == 0) ? '>' : '>=';
+            query += `${big};\n\twhile ( ${alpha} ${sign} ${small} ) {\n\t    ${alpha}--;\n\t}`;
         }
 
         query2 += query + `\n${alpha}`

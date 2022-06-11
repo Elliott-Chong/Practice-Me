@@ -21,7 +21,7 @@
       console.log ( e + f );
 */
 class IfElseSelectionTemplate {
-    constructor(difficulty) {
+    constructor() {
         this.question = this.generateQuestion(/*difficulty*/);
         this.answer = this.generateAnswer(this.question[1]);
         this.category = ['if', 'else'];
