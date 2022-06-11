@@ -13,9 +13,11 @@ function PracticePage() {
     if (!state.practice.started) {
       history.push("/practice-config");
     } else {
+      console.log("cum");
       fetchQuestion();
     }
-  }, [history, state.practice.started, fetchQuestion]);
+    //eslint-disable-next-line
+  }, [history, state.practice.started]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -45,6 +47,11 @@ function PracticePage() {
       setCorrect("neutral");
     }, 1000);
     fetchQuestion();
+  };
+  const handleEnd = (e) => {
+    e.preventDefault();
+    dispatch({ type: "update_practice_end_status", payload: true });
+    history.push("/practice-results");
   };
 
   const [stat, setStat] = React.useState({
@@ -104,10 +111,7 @@ function PracticePage() {
             </button>
           </div>
           <button
-            onClick={(e) => {
-              e.preventDefault();
-              console.log("cim");
-            }}
+            onClick={handleEnd}
             className="text-white bg-sp-red hover:opacity-70 transition-all py-1 px-2"
           >
             end session

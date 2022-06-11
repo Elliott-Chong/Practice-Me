@@ -9,6 +9,7 @@ import "./css/custom.css";
 import React from "react";
 import PracticeConfigPage from "./pages/PracticeConfigPage";
 import { useGlobalContext } from "./context";
+import PracticeResultsPage from "./pages/PracticeResultsPage";
 
 function App() {
   const { dispatch } = useGlobalContext();
@@ -35,6 +36,11 @@ function App() {
               component={PracticeConfigPage}
             />
             <Route path="/practice" exact component={PracticePage} />
+            <Route
+              path="/practice-results"
+              exact
+              component={PracticeResultsPage}
+            />
           </QuestionsContext>
         </Switch>
       </main>
