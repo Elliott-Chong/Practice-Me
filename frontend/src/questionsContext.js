@@ -26,6 +26,11 @@ const Context = ({ children }) => {
     });
     try {
       const response = await axios.post(`/api/questions/`, body, config);
+      // console.log(response.data)
+      // response.data = {
+      //   question: 'sdkfjlskdf',
+      //   answer: '5'
+      // }
       dispatch({
         type: "set_practice_question",
         payload: { ...response.data, currentTopic },

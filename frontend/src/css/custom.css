@@ -66,11 +66,32 @@
 }
 
 .topic-box input:checked + label {
-  background-color: #2563EB;
-color:white
+  background-color: #2563eb;
+  color: white;
 }
 .topic-box input:checked + label:hover {
-opacity: .7;
+  opacity: 0.7;
+}
+
+/* timer */
+.timer {
+  width: 100%;
+  background-color: black;
+  color: white;
+  height: 10px;
+  border-radius: 10px;
+  position: relative;
+}
+
+.timer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: var(--timer-percentage);
+  background-color: green;
+  border-radius: 10px;
 }
 
 @media (max-width: 640px) {
@@ -80,5 +101,4 @@ opacity: .7;
   #nav-content.active {
     display: flex;
   }
-  
 }
