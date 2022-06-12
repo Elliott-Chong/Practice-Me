@@ -30,6 +30,8 @@ const getQuestionTemplate = (topic) => {
     case "array":
       template = require("../../ArrayBasicQnsClass");
       break;
+    case "while-loop":
+      template = require("../../RepetitionWhileQnsClass");
   }
   return new template();
 };

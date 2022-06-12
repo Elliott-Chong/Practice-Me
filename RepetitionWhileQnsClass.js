@@ -7,66 +7,55 @@
       console.log( count );
 */
 class WhileRepetitionTemp {
-    constructor() {
-        this.qnAndAns = this.generateQuestionAndAnswer();
-        this.question = this.generateQuestion();
-        this.answer = this.generateAnswer(this.qnAndAns[1]);
-        this.category = ['while loop'];
-    }
-    /*
+  /*
         Return a random alphabet
     */
-    generateAlphabet() {
-        const alphabet = "abcdefghijklmnopqrstuvwxyz";
-        return alphabet[Math.floor(Math.random() * alphabet.length)];
-    }
+  generateAlphabet() {
+    const alphabet = "abcdefghijklmnopqrstuvwxyz";
+    return alphabet[Math.floor(Math.random() * alphabet.length)];
+  }
 
-    /*
+  /*
         Return a random number from 0 to 9
     */
-    generateRnd10() {
-        return Math.floor(Math.random() * 10);
-    }
+  generateRnd10() {
+    return Math.floor(Math.random() * 10);
+  }
 
-    /*
+  /*
         Return an array consisting of:
         [0] - string concatenated while loop question
         [1] - string concatenated while loop question with counter for evaluation
     */
-    generateQuestionAndAnswer() {
-        var alpha = this.generateAlphabet();
-        var small = Math.floor(Math.random() * 5);
-        var big = Math.floor(Math.random() * 10) + 15;
-        var query = `\n\tvar ${alpha} = `;
-        var query2 = `// while `;
+  generateQuestion() {
+    var alpha = this.generateAlphabet();
+    var small = Math.floor(Math.random() * 5);
+    var big = Math.floor(Math.random() * 10) + 15;
+    var query = `\n\tvar ${alpha} = `;
+    var query2 = ``;
 
-        if (this.generateRnd10() % 2 == 0) {
-            // Increment while Loop
-            var sign = (this.generateRnd10() % 2 == 0) ? '<' : '<=';
-            query += `${small};\n\twhile ( ${alpha} ${sign} ${big} ) {\n\t    ${alpha}++;\n\t}`;
-
-        } else {
-            // Decrement while Loop
-            var sign = (this.generateRnd10() % 2 == 0) ? '>' : '>=';
-            query += `${big};\n\twhile ( ${alpha} ${sign} ${small} ) {\n\t    ${alpha}--;\n\t}`;
-        }
-
-        query2 += query + `\n${alpha}`
-        query += `\n\tconsole.log( ${alpha} );`
-
-        return [query, query2];
+    if (this.generateRnd10() % 2 == 0) {
+      // Increment while Loop
+      var sign = this.generateRnd10() % 2 == 0 ? "<" : "<=";
+      query += `${small};\n\twhile ( ${alpha} ${sign} ${big} ) {\n\t    ${alpha}++;\n\t}`;
+    } else {
+      // Decrement while Loop
+      var sign = this.generateRnd10() % 2 == 0 ? ">" : ">=";
+      query += `${big};\n\twhile ( ${alpha} ${sign} ${small} ) {\n\t    ${alpha}--;\n\t}`;
     }
 
-    generateQuestion(){
-        return this.qnAndAns[0];
-    }
+    query2 += query + `\n${alpha}`;
+    query += `\n\tconsole.log( ${alpha} );`;
 
-    /*
+    return [query, query2];
+  }
+
+  /*
         Return the evaulation of the question
     */
-    generateAnswer(question) {
-        return eval(question);
-    }
+  generateAnswer(question) {
+    return eval(question);
+  }
 }
 
 module.exports = WhileRepetitionTemp;
