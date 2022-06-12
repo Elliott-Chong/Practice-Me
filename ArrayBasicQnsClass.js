@@ -8,33 +8,11 @@
     - basic mathematical operations among values in array
 */
 class ArrayBasicTemp {
-<<<<<<< HEAD
   constructor() {
-    // length related question/ answer
-    this.question1 = this.generateGetLengthQns();
-    this.answer1 = this.generateAnswer(this.question1[1]);
-
-    // retrieve index related question/ answer
-    this.question2 = this.generateGetIndexQns();
-    this.answer2 = this.generateAnswer(this.question2[1]);
-
-    // retrieve arithmetic operation on index related question/ answer
-    this.question3 = this.generateIndexOperationQns();
-    this.answer3 = this.generateAnswer(this.question3[1]);
-
-    // retrieve pop/push methods related question/ answer
-    this.question4 = this.generateArrayMethodsQns();
-    this.answer4 = this.generateAnswer(this.question4[1]);
-
+    this.question = this.generateQuestion();
+    this.answer = this.generateAnswer(this.question[1]);
     this.category = ["array"];
   }
-=======
-    constructor() {
-        this.question = this.generateQuestion();
-        this.answer = this.generateAnswer(this.question[1]);
-        this.category = ['array'];
-    }
->>>>>>> 90e9dee40cb03222f89f8da5d7d5cd0a4a185b83
 
   /*
        Return a random alphabet
@@ -202,19 +180,20 @@ class ArrayBasicTemp {
         Math.random() * 10
       )} );`;
       query2 = query + `\n// push `;
-    }}
-
-    // Generate random array questions
-    generateQuestion(){
-        let random = Math.floor(Math.random()*4);
-        let arrayOfQuestions = [
-            this.generateGetLengthQns(),
-            this.generateGetIndexQns(),
-            this.generateIndexOperationQns(),
-            this.generateArrayMethodsQns()
-        ]
-        return arrayOfQuestions[random];
     }
+  }
+
+  // Generate random array questions
+  generateQuestion() {
+    let random = Math.floor(Math.random() * 4);
+    let arrayOfQuestions = [
+      this.generateGetLengthQns(),
+      this.generateGetIndexQns(),
+      this.generateIndexOperationQns(),
+      this.generateArrayMethodsQns(),
+    ];
+    return arrayOfQuestions[random];
+  }
 
   generateAnswer(question) {
     return eval(question);

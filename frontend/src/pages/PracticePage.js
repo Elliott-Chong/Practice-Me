@@ -3,10 +3,12 @@ import ContentContainer from "../components/ContentContainer";
 import CodeSnippet from "../components/CodeSnippet";
 import { useQuestionsContext } from "../questionsContext";
 import { useHistory } from "react-router-dom";
+import useTimer from "../components/useTimer";
 
 function PracticePage() {
   const { state, dispatch, fetchQuestion } = useQuestionsContext();
   const inputRef = React.useRef();
+  const [time, ended, minuteTime] = useTimer(30);
   const history = useHistory();
 
   React.useEffect(() => {
@@ -79,8 +81,13 @@ function PracticePage() {
             : ((stat.correct / stat.all) * 100).toFixed(2)}
           )%
         </span>
+        <span className="ml-4">{time}s</span>
       </h1>
       <div className="w-[85vw] max-w-[500px]">
+        <div
+          className="timer"
+          style={{ "--timer-percentage": 100 - (minuteTime / 30) * 100 + "%" }}
+        ></div>
         <CodeSnippet correct={correct} question={state.practice.question} />
         <form
           onSubmit={handleSubmit}
