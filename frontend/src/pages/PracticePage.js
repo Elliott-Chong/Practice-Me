@@ -8,18 +8,24 @@ import useTimer from "../components/useTimer";
 function PracticePage() {
   const { state, dispatch, fetchQuestion } = useQuestionsContext();
   const inputRef = React.useRef();
-  const [time, ended, minuteTime] = useTimer(30);
+  const [time, ended, minuteTime, increaseTime] = useTimer(30);
   const history = useHistory();
 
   React.useEffect(() => {
     if (!state.practice.started) {
       history.push("/practice-config");
     } else {
-      console.log("cum");
       fetchQuestion();
     }
     //eslint-disable-next-line
   }, [history, state.practice.started]);
+
+  React.useEffect(() => {
+    if (ended) {
+      dispatch({ type: "update_practice_end_status", payload: true });
+      history.push("/practice-results");
+    }
+  }, [ended, dispatch, history]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -27,6 +33,7 @@ function PracticePage() {
       answer.toString().toLowerCase() ===
       state.practice.answer.toString().toLowerCase()
     ) {
+      increaseTime(5);
       setStat((stat) => {
         return { all: stat.all + 1, correct: stat.correct + 1 };
       });
