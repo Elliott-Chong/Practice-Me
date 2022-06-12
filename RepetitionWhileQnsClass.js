@@ -8,8 +8,9 @@
 */
 class WhileRepetitionTemp {
     constructor() {
+        this.qnAndAns = this.generateQuestionAndAnswer();
         this.question = this.generateQuestion();
-        this.answer = this.generateAnswer(this.question[1]);
+        this.answer = this.generateAnswer(this.qnAndAns[1]);
         this.category = ['while loop'];
     }
     /*
@@ -32,7 +33,7 @@ class WhileRepetitionTemp {
         [0] - string concatenated while loop question
         [1] - string concatenated while loop question with counter for evaluation
     */
-    generateQuestion() {
+    generateQuestionAndAnswer() {
         var alpha = this.generateAlphabet();
         var small = Math.floor(Math.random() * 5);
         var big = Math.floor(Math.random() * 10) + 15;
@@ -54,6 +55,10 @@ class WhileRepetitionTemp {
         query += `\n\tconsole.log( ${alpha} );`
 
         return [query, query2];
+    }
+
+    generateQuestion(){
+        return this.qnAndAns[0];
     }
 
     /*
