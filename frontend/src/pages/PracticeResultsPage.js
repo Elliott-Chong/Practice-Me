@@ -27,8 +27,8 @@ function PracticeResultsPage() {
   return (
     <ContentContainer className="flex justify-center items-center flex-col">
       <div className="flex shadow-xl flex-col md:w-[30vw] md:min-w-[500px] w-[80vw]">
-        <div className="bg-sp-red py-2 px-4 font-space font-bold text-white w-full">
-          <h1 className="text-3xl">stats</h1>
+        <div className="bg-green-500 py-2 px-4 font-space font-bold text-white w-full">
+          <h1 className="text-3xl">Overall</h1>
         </div>
         <div className="p-5 text-white flex flex-col gap-5 font-space">
           {Object.keys(stats).length === 0 ? (

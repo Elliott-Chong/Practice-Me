@@ -92,9 +92,9 @@ function HomePage() {
           <h1 className="text-2xl">
             Welcome to
             <span className="text-sp-red"> practice</span>
-            <span className="">Me!</span>
+            <span className="">Me,</span>
           </h1>
-          <h3 className="mt-2 font-bold underline text-2xl break-all mb-4">
+          <h3 className="mt-2 font-bold underline text-xl break-all mb-4">
             {currentUser.email}
           </h3>
         </div>
