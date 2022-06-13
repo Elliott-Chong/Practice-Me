@@ -34,26 +34,25 @@ class BooleanOperatorTemplate {
     var values = this.generateNoOfValues();
     var query = "console.log(";
     query += values[0];
+    var query1 = values[0];
     for (var i = 1; i < values.length; i++) {
       if (Math.floor(Math.random() * 10) % 2 == 0) {
         query += " && " + values[i];
+        query1 += " && " + values[i];
       } else {
         query += " || " + values[i];
+        query1 += " || " + values[i];
       }
     }
     query += ")";
-    return [query, query];
+    return [query, query1];
   }
 
   /*
         Return the evaulation of the question
     */
   generateAnswer(question) {
-    if (eval(question)) {
-      return "true";
-    } else {
-      return "false";
-    }
+    return eval(question);
   }
 }
 
