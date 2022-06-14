@@ -32,7 +32,9 @@ function LoginPage() {
             </label>
             <input
               required
-              className="py-1 px-2 shadow-lg"
+              className="py-1 px-2 shadow-lg focus:outline 
+              focus:outline-4 focus:outline-blue-500/70 focus:rounded-sm 
+              focus:shadow-blue-500/70 focus:m-1"
               onChange={handleChange}
               id="email"
               value={formData.email}
@@ -47,7 +49,9 @@ function LoginPage() {
             </label>
             <input
               required
-              className="py-1 px-2 shadow-lg"
+              className="py-1 px-2 shadow-lg focus:outline 
+              focus:outline-4 focus:outline-blue-500/70 focus:rounded-sm 
+              focus:shadow-blue-500/70 focus:m-1"
               value={formData.password}
               id="password"
               onChange={handleChange}

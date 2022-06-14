@@ -34,7 +34,9 @@ function RegisterPage() {
               Email
             </label>
             <input
-              className="py-1 px-2 shadow-lg"
+              className="py-1 px-2 shadow-lg focus:outline 
+              focus:outline-4 focus:outline-blue-500/70 focus:rounded-sm 
+              focus:shadow-blue-500/70 focus:m-1"
               onChange={handleChange}
               id="email"
               value={formData.email}
@@ -49,7 +51,9 @@ function RegisterPage() {
               Password
             </label>
             <input
-              className="py-1 px-2 shadow-lg"
+              className="py-1 px-2 shadow-lg focus:outline 
+              focus:outline-4 focus:outline-blue-500/70 focus:rounded-sm 
+              focus:shadow-blue-500/70 focus:m-1"
               value={formData.password}
               id="password"
               onChange={handleChange}
@@ -64,7 +68,9 @@ function RegisterPage() {
               Confirm Password
             </label>
             <input
-              className="py-1 px-2 shadow-lg"
+              className="py-1 px-2 shadow-lg focus:outline 
+              focus:outline-4 focus:outline-blue-500/70 focus:rounded-sm 
+              focus:shadow-blue-500/70 focus:m-1"
               value={formData.passwordConfirmation}
               id="passwordConfirmation"
               onChange={handleChange}
@@ -80,7 +86,9 @@ function RegisterPage() {
             </label>
             <select
               onChange={handleChange}
-              className="py-1 px-2 shadow-lg"
+              className="py-1 px-2 shadow-lg focus:outline 
+              focus:outline-4 focus:outline-blue-500/70 focus:rounded-sm 
+              focus:shadow-blue-500/70 focus:m-1"
               name="course"
               value={formData.course}
               id="course"
@@ -97,7 +105,9 @@ function RegisterPage() {
               Class
             </label>
             <input
-              className="py-1 px-2 shadow-lg"
+              className="py-1 px-2 shadow-lg focus:outline 
+              focus:outline-4 focus:outline-blue-500/70 focus:rounded-sm 
+              focus:shadow-blue-500/70 focus:m-1"
               required
               type="text"
               name="class"
