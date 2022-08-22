@@ -3,13 +3,14 @@ import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
 import { Switch, Route } from "react-router-dom";
 import RegisterPage from "./pages/RegisterPage";
-import PracticePage from "./pages/PracticePage";
 import QuestionsContext from "./questionsContext";
 import "./css/custom.css";
 import React from "react";
-import PracticeConfigPage from "./pages/PracticeConfigPage";
 import { useGlobalContext } from "./context";
-import PracticeResultsPage from "./pages/PracticeResultsPage";
+import PlayMainPage from "./pages/PlayMainPage";
+import SingleConfigPage from "./pages/SingleConfigPage";
+import SingleResultsPage from "./pages/SingleResultsPage";
+import SinglePlayPage from "./pages/SinglePlayPage";
 
 function App() {
   const { dispatch } = useGlobalContext();
@@ -30,17 +31,10 @@ function App() {
           <Route path="/login" exact component={LoginPage} />
           <Route path="/register" exact component={RegisterPage} />
           <QuestionsContext>
-            <Route
-              path="/practice-config"
-              exact
-              component={PracticeConfigPage}
-            />
-            <Route path="/practice" exact component={PracticePage} />
-            <Route
-              path="/practice-results"
-              exact
-              component={PracticeResultsPage}
-            />
+            <Route path="/single-play" exact component={SinglePlayPage} />
+            <Route path="/single-config" exact component={SingleConfigPage} />
+            <Route path="/single-results" exact component={SingleResultsPage} />
+            <Route path="/play" exact component={PlayMainPage} />
           </QuestionsContext>
         </Switch>
       </main>

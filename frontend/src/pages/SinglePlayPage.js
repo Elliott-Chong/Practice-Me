@@ -5,7 +5,7 @@ import { useQuestionsContext } from "../questionsContext";
 import { useHistory } from "react-router-dom";
 import useTimer from "../components/useTimer";
 
-function PracticePage() {
+function SinglePlayPage() {
   const { state, dispatch, fetchQuestion } = useQuestionsContext();
   const inputRef = React.useRef();
   const [time, ended, minuteTime, increaseTime] = useTimer(30);
@@ -13,7 +13,7 @@ function PracticePage() {
 
   React.useEffect(() => {
     if (!state.practice.started) {
-      history.push("/practice-config");
+      history.push("/single-config");
     } else {
       fetchQuestion();
     }
@@ -23,7 +23,7 @@ function PracticePage() {
   React.useEffect(() => {
     if (ended) {
       dispatch({ type: "update_practice_end_status", payload: true });
-      history.push("/practice-results");
+      history.push("/single-results");
     }
   }, [ended, dispatch, history]);
 
@@ -60,7 +60,7 @@ function PracticePage() {
   const handleEnd = (e) => {
     e.preventDefault();
     dispatch({ type: "update_practice_end_status", payload: true });
-    history.push("/practice-results");
+    history.push("/single-results");
   };
 
   const [stat, setStat] = React.useState({
@@ -136,4 +136,4 @@ function PracticePage() {
   );
 }
 
-export default PracticePage;
+export default SinglePlayPage;

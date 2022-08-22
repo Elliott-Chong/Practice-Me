@@ -21,48 +21,72 @@ const top10 = [
     email: "elliottchong.22@ichat.edu.sg",
     class: "DIT/1A/02",
   },
-  {
-    key: 4,
-    rank: 4,
-    email: "elliottchong.22@ichat.edu.sg",
-    class: "DIT/1A/02",
-  },
-  {
-    key: 5,
-    rank: 5,
-    email: "elliottchong.22@ichat.edu.sg",
-    class: "DIT/1A/02",
-  },
-  {
-    key: 6,
-    rank: 6,
-    email: "elliottchong.22@ichat.edu.sg",
-    class: "DIT/1A/02",
-  },
-  {
-    key: 7,
-    rank: 7,
-    email: "elliottchong.22@ichat.edu.sg",
-    class: "DIT/1A/02",
-  },
-  {
-    key: 8,
-    rank: 8,
-    email: "elliottchong.22@ichat.edu.sg",
-    class: "DIT/1A/02",
-  },
-  {
-    key: 9,
-    rank: 9,
-    email: "elliottchong.22@ichat.edu.sg",
-    class: "DIT/1A/02",
-  },
-  {
-    key: 10,
-    rank: 10,
-    email: "elliottchong.22@ichat.edu.sg",
-    class: "DIT/1A/02",
-  },
+  // {
+  //   key: 4,
+  //   rank: 4,
+  //   email: "elliottchong.22@ichat.edu.sg",
+  //   class: "DIT/1A/02",
+  // },
+  // {
+  //   key: 5,
+  //   rank: 5,
+  //   email: "elliottchong.22@ichat.edu.sg",
+  //   class: "DIT/1A/02",
+  // },
+  // {
+  //   key: 6,
+  //   rank: 6,
+  //   email: "elliottchong.22@ichat.edu.sg",
+  //   class: "DIT/1A/02",
+  // },
+  // {
+  //   key: 7,
+  //   rank: 7,
+  //   email: "elliottchong.22@ichat.edu.sg",
+  //   class: "DIT/1A/02",
+  // },
+  // {
+  //   key: 8,
+  //   rank: 8,
+  //   email: "elliottchong.22@ichat.edu.sg",
+  //   class: "DIT/1A/02",
+  // },
+  // {
+  //   key: 9,
+  //   rank: 9,
+  //   email: "elliottchong.22@ichat.edu.sg",
+  //   class: "DIT/1A/02",
+  // },
+  // {
+  //   key: 10,
+  //   rank: 10,
+  //   email: "elliottchong.22@ichat.edu.sg",
+  //   class: "DIT/1A/02",
+  // },
+  // {
+  //   key: 11,
+  //   rank: 11,
+  //   email: "elliottchong.22@ichat.edu.sg",
+  //   class: "DIT/1A/02",
+  // },
+  // {
+  //   key: 12,
+  //   rank: 12,
+  //   email: "elliottchong.22@ichat.edu.sg",
+  //   class: "DIT/1A/02",
+  // },
+  // {
+  //   key: 13,
+  //   rank: 13,
+  //   email: "elliottchong.22@ichat.edu.sg",
+  //   class: "DIT/1A/02",
+  // },
+  // {
+  //   key: 14,
+  //   rank: 14,
+  //   email: "elliottchong.22@ichat.edu.sg",
+  //   class: "DIT/1A/02",
+  // },
 ];
 
 const currentUser = {
@@ -86,56 +110,49 @@ const leaderboardRow = top10.map((user) => {
 
 function HomePage() {
   return (
-    <ContentContainer className="flex items-center justify-evenly flex-col md:flex-row">
-      <div className="flex flex-col my-10">
-        <div className="max-w-sm bg-gray-900 text-center text-white font-bold border-2 border-white rounded-xl p-10 mb-12">
-          <h1 className="text-2xl">
-            Welcome to
-            <span className="text-sp-red"> practice</span>
-            <span className="">Me,</span>
-          </h1>
-          <h3 className="mt-2 font-bold underline text-xl break-all mb-4">
-            {currentUser.email}
-          </h3>
+    <ContentContainer className="flex justify-center items-center">
+      <div className="px-4 md:max-w-[75vw] w-[90vw] flex flex-col md:flex-row justify-center items-start gap-6">
+        <div
+          id="stats"
+          className="p-8 bg-gray-900 text-white w-full md:w-auto flex flex-col gap-4 font-karla text-2xl shadow-xl text-left"
+        >
+          <div>
+            Good morning <span className="font-bold">Elliott</span>
+          </div>
+          <div>
+            <span>Ranking:</span>
+            <span className="font-bold">&nbsp;1</span>
+          </div>
+          <div>
+            <span>Score:</span>
+            <span className="font-bold">&nbsp;3,490</span>
+          </div>
         </div>
-
-        <div className="w-full max-w-sm rounded-xl border-2 border-white bg-gray-900 text-white px-10 py-5 md:px-10 md:py-10">
-          <h1 className="text-2xl font-bold text-blue-500 text-center mb-2">
-            Statistics
-          </h1>
-          <hr></hr>
-          <section className="font-bold text-center flex flex-col justify-evenly mt-2">
-            <p className="text-lg text-sp-red">Rank : {currentUser.rank}</p>
-            <p className="text-lg">Wins : {currentUser.wins}</p>
-            <p className="text-lg">Week : {week}</p>
-          </section>
+        <div
+          id="leaderboard"
+          className="p-6 px-12 bg-gray-900 w-full md:w-auto overflow-scroll max-h-[80vh] md:max-h-[40vw] shadow-xl"
+        >
+          <table class="table-auto text-white font-karla text-xl w-full ">
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Name</th>
+                <th>Class</th>
+              </tr>
+            </thead>
+            <tbody>
+              {top10.map((user) => {
+                return (
+                  <tr key={user.key}>
+                    <td>{user.rank}</td>
+                    <td>{user.email}</td>
+                    <td>{user.class}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
         </div>
-      </div>
-
-      <div
-        className="w-full max-w-sm xl:max-w-4xl md:max-w-xl sm:max-w-md rounded-2xl
-      border-2 border-white bg-gray-900 text-white flex flex-col p-10 mb-10"
-      >
-        <h1 className="text-4xl font-bold text-blue-500 text-center mb-4 xl:text-6xl">
-          Leaderboard
-        </h1>
-        <hr></hr>
-        <table className="text-center rounded-xl border-separate mt-4">
-          <thead>
-            <tr className="m-3">
-              <th className="px-3 pt-1 text-sp-red text-lg xl:text-3xl">
-                Rank
-              </th>
-              <th className="px-3 pt-1 break-all text-sp-red text-lg xl:text-3xl">
-                Email
-              </th>
-              <th className="px-3 pt-1 text-sp-red text-lg xl:text-3xl">
-                Class
-              </th>
-            </tr>
-          </thead>
-          <tbody>{leaderboardRow}</tbody>
-        </table>
       </div>
     </ContentContainer>
   );

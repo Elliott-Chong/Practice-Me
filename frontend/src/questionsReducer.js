@@ -40,7 +40,6 @@ const reducer = (state, action) => {
       const { correct, topic } = payload;
       const { practice } = state;
       if (practice.stats.hasOwnProperty(topic)) {
-        console.log("key exists");
         let updatedAll = practice.stats[topic].all + 1;
         let updatedCorrect = correct
           ? practice.stats[topic].correct + 1
@@ -57,7 +56,6 @@ const reducer = (state, action) => {
           },
         };
       } else {
-        console.log("key no exist yet");
         let updatedCorrect = correct ? 1 : 0;
         return {
           ...state,

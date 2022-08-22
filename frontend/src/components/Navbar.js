@@ -11,7 +11,7 @@ function Navbar() {
   };
 
   return (
-    <nav className="bg-gray-900 fixed top-0 w-full md:flex flex-col md:space-y-0 md:flex-row space-y-4 justify-start items-center py-4 px-8">
+    <nav className="bg-gray-900 z-50 fixed top-0 w-full md:flex flex-col md:space-y-0 md:flex-row space-y-4 justify-start items-center py-4 px-8">
       <Link to="/" id="logo" className="text-4xl font-karla font-bold">
         <span className="text-sp-red">practice</span>
         <span className="text-white">Me</span>
@@ -38,13 +38,8 @@ function Navbar() {
           </Link>
         </li>
         <li>
-          <Link className="nav-item" onClick={toggleMenu} to="/practice-config">
-            Practice
-          </Link>
-        </li>
-        <li>
-          <Link className="nav-item" onClick={toggleMenu} to="/compete">
-            Compete
+          <Link className="nav-item" onClick={toggleMenu} to="/play">
+            Play
           </Link>
         </li>
       </ul>

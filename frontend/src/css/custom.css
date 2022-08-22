@@ -24,12 +24,11 @@
 }
 
 #logo {
-  transition: text-shadow 200ms;
-  --shadow-size: 3px;
+  transition: transform 200ms;
 }
 
 #logo:hover {
-  text-shadow: var(--shadow-size) var(--shadow-size) grey;
+  transform: translateY(-3px);
 }
 
 #ham {

@@ -32,7 +32,7 @@ function LoginPage() {
             </label>
             <input
               required
-              className="py-1 px-2 shadow-lg"
+              className="py-1 px-2 shadow-lg focus:border-none"
               onChange={handleChange}
               id="email"
               value={formData.email}
@@ -47,7 +47,7 @@ function LoginPage() {
             </label>
             <input
               required
-              className="py-1 px-2 shadow-lg"
+              className="py-1 px-2 shadow-lg focus:border-none"
               value={formData.password}
               id="password"
               onChange={handleChange}

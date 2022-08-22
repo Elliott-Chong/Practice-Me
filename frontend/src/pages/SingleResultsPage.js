@@ -15,7 +15,7 @@ const StatBlock = ({ stat }) => {
   );
 };
 
-function PracticeResultsPage() {
+function SingleResultsPage() {
   const { state } = useQuestionsContext();
   const { stats } = state.practice;
   const history = useHistory();
@@ -50,4 +50,4 @@ function PracticeResultsPage() {
   );
 }
 
-export default PracticeResultsPage;
+export default SingleResultsPage;

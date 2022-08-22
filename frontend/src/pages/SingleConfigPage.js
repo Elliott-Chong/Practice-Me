@@ -36,7 +36,7 @@ function TopicBox({ topic, handleChange }) {
   );
 }
 
-function PracticeConfigPage() {
+function SingleConfigPage() {
   const history = useHistory();
   const { dispatch } = useQuestionsContext();
   const [formData, setFormData] = React.useState({
@@ -61,7 +61,7 @@ function PracticeConfigPage() {
       type: "update_practice_start_status",
       payload: true,
     });
-    history.push("/practice");
+    history.push("/single-play");
   };
 
   const handleChange = (e) => {
@@ -150,4 +150,4 @@ function PracticeConfigPage() {
   );
 }
 
-export default PracticeConfigPage;
+export default SingleConfigPage;
