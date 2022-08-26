@@ -1,5 +1,5 @@
 const initialState = {
-  practice: {
+  single: {
     started: false,
     ended: false,
     currentTopic: null,
@@ -14,43 +14,43 @@ const initialState = {
 const reducer = (state, action) => {
   const { type, payload } = action;
   switch (type) {
-    case "update_practice_preference":
-      return { ...state, practice: { ...state.practice, ...payload } };
-    case "update_practice_start_status":
-      return { ...state, practice: { ...state.practice, started: payload } };
-    case "update_practice_end_status":
-      return { ...state, practice: { ...state.practice, ended: payload } };
-    case "reset_practice_config":
+    case "update_single_preference":
+      return { ...state, single: { ...state.single, ...payload } };
+    case "update_single_start_status":
+      return { ...state, single: { ...state.single, started: payload } };
+    case "update_single_end_status":
+      return { ...state, single: { ...state.single, ended: payload } };
+    case "reset_single_config":
       return {
         ...state,
-        practice: initialState.practice,
+        single: initialState.single,
       };
-    case "set_practice_question":
+    case "set_single_question":
       return {
         ...state,
-        practice: {
-          ...state.practice,
+        single: {
+          ...state.single,
           question: payload.question,
           answer: payload.answer,
           currentTopic: payload.currentTopic,
         },
       };
-    case "update_practice_stats":
+    case "update_single_stats":
       // payload: {correct: true, topic: 'if-else'}
       const { correct, topic } = payload;
-      const { practice } = state;
-      if (practice.stats.hasOwnProperty(topic)) {
-        let updatedAll = practice.stats[topic].all + 1;
+      const { single } = state;
+      if (single.stats.hasOwnProperty(topic)) {
+        let updatedAll = single.stats[topic].all + 1;
         let updatedCorrect = correct
-          ? practice.stats[topic].correct + 1
-          : practice.stats[topic].correct;
+          ? single.stats[topic].correct + 1
+          : single.stats[topic].correct;
 
         return {
           ...state,
-          practice: {
-            ...practice,
+          single: {
+            ...single,
             stats: {
-              ...practice.stats,
+              ...single.stats,
               [topic]: { correct: updatedCorrect, all: updatedAll },
             },
           },
@@ -59,10 +59,10 @@ const reducer = (state, action) => {
         let updatedCorrect = correct ? 1 : 0;
         return {
           ...state,
-          practice: {
-            ...practice,
+          single: {
+            ...single,
             stats: {
-              ...practice.stats,
+              ...single.stats,
               [topic]: { correct: updatedCorrect, all: 1 },
             },
           },
