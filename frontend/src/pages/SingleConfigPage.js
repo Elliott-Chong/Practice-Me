@@ -45,20 +45,20 @@ function SingleConfigPage() {
   });
   React.useEffect(() => {
     dispatch({
-      type: "update_practice_start_status",
+      type: "update_single_start_status",
       payload: false,
     });
-    dispatch({ type: "reset_practice_config" });
+    dispatch({ type: "reset_single_config" });
   }, [dispatch]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch({
-      type: "update_practice_preference",
+      type: "update_single_preference",
       payload: { difficulty: formData.difficulty, topics: formData.topics },
     });
     dispatch({
-      type: "update_practice_start_status",
+      type: "update_single_start_status",
       payload: true,
     });
     history.push("/single-play");

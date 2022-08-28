@@ -12,17 +12,17 @@ function SinglePlayPage() {
   const history = useHistory();
 
   React.useEffect(() => {
-    if (!state.practice.started) {
+    if (!state.single.started) {
       history.push("/single-config");
     } else {
       fetchQuestion();
     }
     //eslint-disable-next-line
-  }, [history, state.practice.started]);
+  }, [history, state.single.started]);
 
   React.useEffect(() => {
     if (ended) {
-      dispatch({ type: "update_practice_end_status", payload: true });
+      dispatch({ type: "update_single_end_status", payload: true });
       history.push("/single-results");
     }
   }, [ended, dispatch, history]);
@@ -31,22 +31,22 @@ function SinglePlayPage() {
     e.preventDefault();
     if (
       answer.toString().toLowerCase() ===
-      state.practice.answer.toString().toLowerCase()
+      state.single.answer.toString().toLowerCase()
     ) {
       increaseTime(5);
       setStat((stat) => {
         return { all: stat.all + 1, correct: stat.correct + 1 };
       });
       dispatch({
-        type: "update_practice_stats",
-        payload: { correct: true, topic: state.practice.currentTopic },
+        type: "update_single_stats",
+        payload: { correct: true, topic: state.single.currentTopic },
       });
       setCorrect(true);
     } else {
       setStat({ ...stat, all: stat.all + 1 });
       dispatch({
-        type: "update_practice_stats",
-        payload: { correct: false, topic: state.practice.currentTopic },
+        type: "update_single_stats",
+        payload: { correct: false, topic: state.single.currentTopic },
       });
       setCorrect(false);
     }
@@ -59,16 +59,16 @@ function SinglePlayPage() {
   };
   const handleEnd = (e) => {
     e.preventDefault();
-    dispatch({ type: "update_practice_end_status", payload: true });
+    dispatch({ type: "update_single_end_status", payload: true });
     history.push("/single-results");
   };
 
   const [stat, setStat] = React.useState({
-    all: Object.entries(state.practice.stats).reduce(
+    all: Object.entries(state.single.stats).reduce(
       (partialSum, a) => partialSum + a[1].all,
       0
     ),
-    correct: Object.entries(state.practice.stats).reduce(
+    correct: Object.entries(state.single.stats).reduce(
       (partialSum, a) => partialSum + a[1].correct,
       0
     ),
@@ -95,7 +95,7 @@ function SinglePlayPage() {
           className="timer"
           style={{ "--timer-percentage": 100 - (minuteTime / 30) * 100 + "%" }}
         ></div>
-        <CodeSnippet correct={correct} question={state.practice.question} />
+        <CodeSnippet correct={correct} question={state.single.question} />
         <form
           onSubmit={handleSubmit}
           className="flex mt-4 font-space md:items-center items-end justify-center flex-col md:flex-row gap-3"

@@ -21,72 +21,72 @@ const top10 = [
     email: "elliottchong.22@ichat.edu.sg",
     class: "DIT/1A/02",
   },
-  // {
-  //   key: 4,
-  //   rank: 4,
-  //   email: "elliottchong.22@ichat.edu.sg",
-  //   class: "DIT/1A/02",
-  // },
-  // {
-  //   key: 5,
-  //   rank: 5,
-  //   email: "elliottchong.22@ichat.edu.sg",
-  //   class: "DIT/1A/02",
-  // },
-  // {
-  //   key: 6,
-  //   rank: 6,
-  //   email: "elliottchong.22@ichat.edu.sg",
-  //   class: "DIT/1A/02",
-  // },
-  // {
-  //   key: 7,
-  //   rank: 7,
-  //   email: "elliottchong.22@ichat.edu.sg",
-  //   class: "DIT/1A/02",
-  // },
-  // {
-  //   key: 8,
-  //   rank: 8,
-  //   email: "elliottchong.22@ichat.edu.sg",
-  //   class: "DIT/1A/02",
-  // },
-  // {
-  //   key: 9,
-  //   rank: 9,
-  //   email: "elliottchong.22@ichat.edu.sg",
-  //   class: "DIT/1A/02",
-  // },
-  // {
-  //   key: 10,
-  //   rank: 10,
-  //   email: "elliottchong.22@ichat.edu.sg",
-  //   class: "DIT/1A/02",
-  // },
-  // {
-  //   key: 11,
-  //   rank: 11,
-  //   email: "elliottchong.22@ichat.edu.sg",
-  //   class: "DIT/1A/02",
-  // },
-  // {
-  //   key: 12,
-  //   rank: 12,
-  //   email: "elliottchong.22@ichat.edu.sg",
-  //   class: "DIT/1A/02",
-  // },
-  // {
-  //   key: 13,
-  //   rank: 13,
-  //   email: "elliottchong.22@ichat.edu.sg",
-  //   class: "DIT/1A/02",
-  // },
-  // {
-  //   key: 14,
-  //   rank: 14,
-  //   email: "elliottchong.22@ichat.edu.sg",
-  //   class: "DIT/1A/02",
-  // },
+  {
+    key: 4,
+    rank: 4,
+    email: "elliottchong.22@ichat.edu.sg",
+    class: "DIT/1A/02",
+  },
+  {
+    key: 5,
+    rank: 5,
+    email: "elliottchong.22@ichat.edu.sg",
+    class: "DIT/1A/02",
+  },
+  {
+    key: 6,
+    rank: 6,
+    email: "elliottchong.22@ichat.edu.sg",
+    class: "DIT/1A/02",
+  },
+  {
+    key: 7,
+    rank: 7,
+    email: "elliottchong.22@ichat.edu.sg",
+    class: "DIT/1A/02",
+  },
+  {
+    key: 8,
+    rank: 8,
+    email: "elliottchong.22@ichat.edu.sg",
+    class: "DIT/1A/02",
+  },
+  {
+    key: 9,
+    rank: 9,
+    email: "elliottchong.22@ichat.edu.sg",
+    class: "DIT/1A/02",
+  },
+  {
+    key: 10,
+    rank: 10,
+    email: "elliottchong.22@ichat.edu.sg",
+    class: "DIT/1A/02",
+  },
+  {
+    key: 11,
+    rank: 11,
+    email: "elliottchong.22@ichat.edu.sg",
+    class: "DIT/1A/02",
+  },
+  {
+    key: 12,
+    rank: 12,
+    email: "elliottchong.22@ichat.edu.sg",
+    class: "DIT/1A/02",
+  },
+  {
+    key: 13,
+    rank: 13,
+    email: "elliottchong.22@ichat.edu.sg",
+    class: "DIT/1A/02",
+  },
+  {
+    key: 14,
+    rank: 14,
+    email: "elliottchong.22@ichat.edu.sg",
+    class: "DIT/1A/02",
+  },
 ];
 
 const currentUser = {
@@ -130,9 +130,9 @@ function HomePage() {
         </div>
         <div
           id="leaderboard"
-          className="p-6 px-12 bg-gray-900 w-full md:w-auto overflow-scroll max-h-[80vh] md:max-h-[40vw] shadow-xl"
+          className="p-6 px-12 bg-gray-900 w-full md:w-auto overflow-scroll max-h-[80vh] md:max-h-[40vw] shadow-xl scrollbar-thin scrollbar-thumb-gray-600"
         >
-          <table class="table-auto text-white font-karla text-xl w-full ">
+          <table className="table-auto text-white font-karla text-xl w-full">
             <thead>
               <tr>
                 <th>Rank</th>

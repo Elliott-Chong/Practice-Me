@@ -17,13 +17,13 @@ const StatBlock = ({ stat }) => {
 
 function SingleResultsPage() {
   const { state } = useQuestionsContext();
-  const { stats } = state.practice;
+  const { stats } = state.single;
   const history = useHistory();
   React.useEffect(() => {
-    if (!state.practice.ended) {
-      history.push("/practice-config");
+    if (!state.single.ended) {
+      history.push("/single-config");
     }
-  }, [history, state.practice.ended]);
+  }, [history, state.single.ended]);
   return (
     <ContentContainer className="flex justify-center items-center flex-col">
       <div className="flex shadow-xl flex-col md:w-[30vw] md:min-w-[500px] w-[80vw]">

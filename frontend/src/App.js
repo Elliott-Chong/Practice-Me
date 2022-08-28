@@ -31,10 +31,10 @@ function App() {
           <Route path="/login" exact component={LoginPage} />
           <Route path="/register" exact component={RegisterPage} />
           <QuestionsContext>
+            <Route path="/play" exact component={PlayMainPage} />
             <Route path="/single-play" exact component={SinglePlayPage} />
             <Route path="/single-config" exact component={SingleConfigPage} />
             <Route path="/single-results" exact component={SingleResultsPage} />
-            <Route path="/play" exact component={PlayMainPage} />
           </QuestionsContext>
         </Switch>
       </main>

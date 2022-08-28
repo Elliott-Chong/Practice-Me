@@ -4,7 +4,7 @@ import singleplayerimg from "../images/one.png";
 import pvpimg from "../images/sword.png";
 import { useHistory, Link } from "react-router-dom";
 
-function CompeteMainPage() {
+function PlayMainPage() {
   const history = useHistory();
   return (
     <ContentContainer className="flex flex-col md:flex-row justify-center items-center">
@@ -39,4 +39,4 @@ function CompeteMainPage() {
   );
 }
 
-export default CompeteMainPage;
+export default PlayMainPage;
