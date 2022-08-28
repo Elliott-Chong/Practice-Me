@@ -1,7 +1,7 @@
 import Navbar from "./components/Navbar";
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import RegisterPage from "./pages/RegisterPage";
 import QuestionsContext from "./questionsContext";
 import "./css/custom.css";
@@ -11,9 +11,15 @@ import PlayMainPage from "./pages/PlayMainPage";
 import SingleConfigPage from "./pages/SingleConfigPage";
 import SingleResultsPage from "./pages/SingleResultsPage";
 import SinglePlayPage from "./pages/SinglePlayPage";
+import PrivateRoute from "./components/PrivateRoute";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
-  const { dispatch } = useGlobalContext();
+  const {
+    dispatch,
+    state: { user, loading },
+  } = useGlobalContext();
   React.useEffect(() => {
     const navHeight = document
       .querySelector("nav")
@@ -28,16 +34,29 @@ function App() {
       <main id="main-container" className="bg-gray-800">
         <Switch>
           <Route path="/" exact component={HomePage} />
-          <Route path="/login" exact component={LoginPage} />
+          <Route exact path={"/login"}>
+            {user && !loading ? <Redirect to="/" /> : <LoginPage />}
+          </Route>
           <Route path="/register" exact component={RegisterPage} />
           <QuestionsContext>
-            <Route path="/play" exact component={PlayMainPage} />
+            <PrivateRoute path="/play" exact component={PlayMainPage} />
             <Route path="/single-play" exact component={SinglePlayPage} />
             <Route path="/single-config" exact component={SingleConfigPage} />
             <Route path="/single-results" exact component={SingleResultsPage} />
           </QuestionsContext>
         </Switch>
       </main>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </>
   );
 }

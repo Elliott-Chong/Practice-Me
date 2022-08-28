@@ -4,19 +4,26 @@ const connection = require("../db.js");
 const util = require("util");
 const { body, validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
-const auth = require("../auth_middleware.js");
+const auth_middleware = require("../auth_middleware.js");
 const query = util.promisify(connection.query).bind(connection);
 
+router.get("/user", auth_middleware, (req, res) => {
+  if (req.user) {
+    return res.status(200).json(req.user);
+  } else {
+    return res.status(400).send("No User");
+  }
+});
+
 router.post("/login", async (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
   try {
-    const response = await query("SELECT * FROM Users WHERE name=?", [
-      username,
-    ]);
+    const response = await query("SELECT * FROM Users WHERE email=?", [email]);
+    console.log(response);
     if (response.length == 0) {
       return res
         .status(400)
-        .json({ errors: [{ msg: "Invalid username or password!" }] });
+        .json({ errors: [{ msg: "Invalid email or password!" }] });
     }
     if (await bcrypt.compare(password, response[0].password)) {
       const payload = {
@@ -31,7 +38,7 @@ router.post("/login", async (req, res) => {
     } else {
       return res
         .status(400)
-        .json({ errors: [{ msg: "Invalid username or password!" }] });
+        .json({ errors: [{ msg: "Invalid email or password!" }] });
     }
   } catch (error) {
     console.log(error);

@@ -1,9 +1,13 @@
 import React, { useRef } from "react";
 import { Link } from "react-router-dom";
+import { useGlobalContext } from "../context";
 
 function Navbar() {
   const hamRef = useRef();
   const ulRef = useRef();
+
+  const { state } = useGlobalContext();
+  const { user } = state;
 
   const toggleMenu = () => {
     hamRef.current.classList.toggle("active");
@@ -27,21 +31,30 @@ function Navbar() {
         ref={ulRef}
         className="md:flex flex-col md:flex-row md:space-x-8 text-xl text-white font-bold font-space ml-auto"
       >
-        <li>
-          <Link className="nav-item" onClick={toggleMenu} to="/login">
-            Login
-          </Link>
-        </li>
-        <li>
-          <Link className="nav-item" onClick={toggleMenu} to="/register">
-            Register
-          </Link>
-        </li>
-        <li>
-          <Link className="nav-item" onClick={toggleMenu} to="/play">
-            Play
-          </Link>
-        </li>
+        {user && (
+          <>
+            <li>
+              <Link className="nav-item" onClick={toggleMenu} to="/play">
+                Play
+              </Link>
+            </li>
+          </>
+        )}
+
+        {!user && (
+          <>
+            <li>
+              <Link className="nav-item" onClick={toggleMenu} to="/login">
+                Login
+              </Link>
+            </li>
+            <li>
+              <Link className="nav-item" onClick={toggleMenu} to="/register">
+                Register
+              </Link>
+            </li>
+          </>
+        )}
       </ul>
     </nav>
   );

@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import ContentContainer from "../components/ContentContainer";
+import { useGlobalContext } from "../context";
 
 function LoginPage() {
+  const { loginUser } = useGlobalContext();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -14,6 +16,7 @@ function LoginPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    loginUser(formData.email, formData.password);
   };
   return (
     <ContentContainer className="flex flex-col justify-center items-center">
