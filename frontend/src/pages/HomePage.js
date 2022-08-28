@@ -6,10 +6,23 @@ function HomePage() {
   const { state, getAllUsers } = useGlobalContext();
 
   const [allUsers, setAllUsers] = React.useState([]);
+  const [rank, setRank] = React.useState();
   React.useEffect(() => {
-    const all_users = getAllUsers();
-    setAllUsers(all_users);
-  }, [getAllUsers, setAllUsers]);
+    getAllUsers().then((res) => {
+      res = res.sort((a, b) => b.score - a.score);
+      for (let i = 0; i < res.length; i++) {
+        if (res[i].id === state.user?.id) {
+          setRank(i + 1);
+          break;
+        }
+      }
+      setAllUsers(res);
+    });
+  }, [getAllUsers, setAllUsers, state.user]);
+
+  // React.useEffect(() => {
+  //   console.log(allUsers);
+  // }, [allUsers]);
   return (
     <ContentContainer className="flex justify-center py-10 items-center">
       <div className="px-4 md:max-w-[75vw] w-[90vw] flex flex-col md:flex-row justify-center items-start gap-6">
@@ -25,7 +38,7 @@ function HomePage() {
               </div>
               <div>
                 <span>Ranking:</span>
-                <span className="font-bold">&nbsp;1</span>
+                <span className="font-bold">&nbsp;{rank}</span>
               </div>
               <div>
                 <span>Score:</span>
@@ -51,18 +64,26 @@ function HomePage() {
                 <th>Rank</th>
                 <th>Name</th>
                 <th>Class</th>
+                <th>Score</th>
               </tr>
             </thead>
             <tbody>
-              {allUsers.map((user) => {
-                return (
-                  <tr key={user.id}>
-                    <td>{user.name}</td>
-                    <td>{user.email}</td>
-                    <td>{user.class}</td>
-                  </tr>
-                );
-              })}
+              {allUsers.length > 0 &&
+                allUsers.map((user, idx) => {
+                  return (
+                    <tr
+                      key={idx}
+                      className={`${
+                        user.id == state.user?.id && "bg-red-600 font-bold"
+                      }`}
+                    >
+                      <td>{idx + 1}</td>
+                      <td>{user.name}</td>
+                      <td>{user.class}</td>
+                      <td>{user.score}</td>
+                    </tr>
+                  );
+                })}
             </tbody>
           </table>
         </div>

@@ -83,7 +83,7 @@ router.put("/score", auth_middleware, async (req, res) => {
 router.get("/all", async (req, res) => {
   try {
     let result = await query(
-      "SELECT id, name, email, class, course, score FROM Users"
+      "SELECT id, name, email, class, course, score FROM Users;"
     );
     return res.status(200).json(result);
   } catch (error) {
