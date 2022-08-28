@@ -17,18 +17,25 @@ router.get("/user", auth_middleware, (req, res) => {
 
 router.post(
   "/register",
-  body("email", "Please provide a valid email address.").isEmail(),
+  body("email", "Please provide a valid ichat address.")
+    .isEmail()
+    .matches(new RegExp("^[a-zA-Z]+.[1-2][0-9]@ichat.sp.edu.sg$", "i")),
   body("password", "Password must be at least 6 digits long.").isLength({
     min: 6,
   }),
   body("course", "Please enter a valid course.").not().isEmpty(),
-  body("cls", "Please enter a valid class").not().isEmpty(),
+  body("cls", "Please enter a valid class")
+    .not()
+    .isEmpty()
+    .matches(new RegExp("^[1-3][A|a|B|b|C|c]/[0-4][0-9]$", "i")),
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const { email, password, password1, course, cls } = req.body;
+    let { email, password, password1, course, cls } = req.body;
+    email = email.toLowerCase();
+    cls = cls.toUpperCase();
     if (password !== password1) {
       return res
         .status(400)
