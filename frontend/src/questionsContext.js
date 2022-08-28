@@ -51,11 +51,6 @@ const Context = ({ children }) => {
     });
     try {
       await axios.put(`/api/auth/score`, body, config);
-      // console.log(response.data)
-      // response.data = {
-      //   question: 'sdkfjlskdf',
-      //   answer: '5'
-      // }
     } catch (error) {
       console.error(error.message);
     }

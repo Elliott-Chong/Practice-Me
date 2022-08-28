@@ -2,115 +2,14 @@ import React from "react";
 import ContentContainer from "../components/ContentContainer";
 import { useGlobalContext } from "../context";
 
-// The following are hardcoded examples of data that is fetched from server
-const top10 = [
-  {
-    key: 1,
-    rank: 1,
-    email: "elliottchong.22@ichat.edu.sg",
-    class: "DIT/1A/02",
-  },
-  {
-    key: 2,
-    rank: 2,
-    email: "elliottchong.22@ichat.edu.sg",
-    class: "DIT/1A/02",
-  },
-  {
-    key: 3,
-    rank: 3,
-    email: "elliottchong.22@ichat.edu.sg",
-    class: "DIT/1A/02",
-  },
-  {
-    key: 4,
-    rank: 4,
-    email: "elliottchong.22@ichat.edu.sg",
-    class: "DIT/1A/02",
-  },
-  {
-    key: 5,
-    rank: 5,
-    email: "elliottchong.22@ichat.edu.sg",
-    class: "DIT/1A/02",
-  },
-  {
-    key: 6,
-    rank: 6,
-    email: "elliottchong.22@ichat.edu.sg",
-    class: "DIT/1A/02",
-  },
-  {
-    key: 7,
-    rank: 7,
-    email: "elliottchong.22@ichat.edu.sg",
-    class: "DIT/1A/02",
-  },
-  {
-    key: 8,
-    rank: 8,
-    email: "elliottchong.22@ichat.edu.sg",
-    class: "DIT/1A/02",
-  },
-  {
-    key: 9,
-    rank: 9,
-    email: "elliottchong.22@ichat.edu.sg",
-    class: "DIT/1A/02",
-  },
-  {
-    key: 10,
-    rank: 10,
-    email: "elliottchong.22@ichat.edu.sg",
-    class: "DIT/1A/02",
-  },
-  {
-    key: 11,
-    rank: 11,
-    email: "elliottchong.22@ichat.edu.sg",
-    class: "DIT/1A/02",
-  },
-  {
-    key: 12,
-    rank: 12,
-    email: "elliottchong.22@ichat.edu.sg",
-    class: "DIT/1A/02",
-  },
-  {
-    key: 13,
-    rank: 13,
-    email: "elliottchong.22@ichat.edu.sg",
-    class: "DIT/1A/02",
-  },
-  {
-    key: 14,
-    rank: 14,
-    email: "elliottchong.22@ichat.edu.sg",
-    class: "DIT/1A/02",
-  },
-];
-
-// const currentUser = {
-//   email: "elliottchong.22@ichat.edu.sg",
-//   rank: 100,
-//   wins: 2034,
-// };
-
-// const week = 1;
-// End of example data
-
-// const leaderboardRow = top10.map((user) => {
-//   return (
-//     <tr className="m-3 xl:text-xl" key={user.key}>
-//       <td className="px-3 py-1">{user.rank}</td>
-//       <td className="px-3 py-1 break-all">{user.email}</td>
-//       <td className="px-3 py-1">{user.class}</td>
-//     </tr>
-//   );
-// });
-
 function HomePage() {
-  const { state } = useGlobalContext();
+  const { state, getAllUsers } = useGlobalContext();
+
+  const [allUsers, setAllUsers] = React.useState([]);
+  React.useEffect(() => {
+    const all_users = getAllUsers();
+    setAllUsers(all_users);
+  }, [getAllUsers, setAllUsers]);
   return (
     <ContentContainer className="flex justify-center py-10 items-center">
       <div className="px-4 md:max-w-[75vw] w-[90vw] flex flex-col md:flex-row justify-center items-start gap-6">
@@ -155,10 +54,10 @@ function HomePage() {
               </tr>
             </thead>
             <tbody>
-              {top10.map((user) => {
+              {allUsers.map((user) => {
                 return (
-                  <tr key={user.key}>
-                    <td>{user.rank}</td>
+                  <tr key={user.id}>
+                    <td>{user.name}</td>
                     <td>{user.email}</td>
                     <td>{user.class}</td>
                   </tr>

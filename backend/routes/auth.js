@@ -80,6 +80,17 @@ router.put("/score", auth_middleware, async (req, res) => {
   }
 });
 
+router.get("/all", async (req, res) => {
+  try {
+    let result = await query(
+      "SELECT id, name, email, class, course, score FROM Users"
+    );
+    return res.status(200).json(result);
+  } catch (error) {
+    console.error(error);
+  }
+});
+
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
   try {

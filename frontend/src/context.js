@@ -86,6 +86,15 @@ const Context = ({ children }) => {
     }
   };
 
+  const getAllUsers = React.useCallback(async () => {
+    try {
+      const response = await axios.get("/api/auth/all");
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
+
   return (
     <AppContext.Provider
       value={{
@@ -96,6 +105,7 @@ const Context = ({ children }) => {
         loadUser,
         registerUser,
         logOut,
+        getAllUsers,
       }}
     >
       {children}
