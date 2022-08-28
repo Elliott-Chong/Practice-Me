@@ -11,6 +11,11 @@ const Context = ({ children }) => {
     console.log(state);
   }, [state]);
 
+  const logOut = () => {
+    dispatch({ type: "CLEAR_USER" });
+    setAlert("success", "Logged out!");
+  };
+
   const loadUser = React.useCallback(async () => {
     dispatch({ type: "SET_LOADING", payload: true });
     try {
@@ -37,6 +42,26 @@ const Context = ({ children }) => {
       case "error":
         toast.error(text);
         break;
+      default:
+        toast.info(text);
+    }
+  };
+
+  const registerUser = async (email, password, password1, course, cls) => {
+    const config = {
+      headers: { "Content-Type": "application/json" },
+    };
+    const body = JSON.stringify({ email, password, password1, course, cls });
+    try {
+      const response = await axios.post("/api/auth/register", body, config);
+      setAlert("success", "Account Created!");
+      dispatch({ type: "SET_TOKEN", payload: response.data.token });
+      window.location.href = "/play";
+    } catch (error) {
+      error.response.data.errors.forEach((error) => {
+        setAlert("error", error.msg);
+      });
+      console.error(error);
     }
   };
 
@@ -69,6 +94,8 @@ const Context = ({ children }) => {
         setAlert,
         loginUser,
         loadUser,
+        registerUser,
+        logOut,
       }}
     >
       {children}

@@ -11,7 +11,6 @@ const reducer = (state, action) => {
       return { ...state, loading: payload };
     case "SET_NAV_HEIGHT":
       return { ...state, nav_height: payload };
-
     case "SET_TOKEN":
       localStorage.setItem("token", payload);
       break;

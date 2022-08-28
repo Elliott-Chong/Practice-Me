@@ -25,4 +25,16 @@ VALUES (
         'DIT',
         'https://lh3.googleusercontent.com/a-/AFdZucr6TBC8jzwRugHT_eHDVWCtlojnWn99HT8kDsyo=s96-c',
         934
-    )
+    ) --
+    -- @block
+SELECT id,
+    email,
+    name,
+    class,
+    course,
+    avatar
+from Users;
+--
+-- @block
+ALTER TABLE Users
+MODIFY COLUMN score DOUBLE DEFAULT 0;

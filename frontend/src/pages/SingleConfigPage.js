@@ -2,6 +2,8 @@ import React from "react";
 import ContentContainer from "../components/ContentContainer";
 import { useHistory } from "react-router-dom";
 import { useQuestionsContext } from "../questionsContext";
+import { Switch } from "@headlessui/react";
+import { useGlobalContext } from "../context";
 
 const all_topics = [
   "array",
@@ -38,7 +40,8 @@ function TopicBox({ topic, handleChange }) {
 
 function SingleConfigPage() {
   const history = useHistory();
-  const { dispatch } = useQuestionsContext();
+  const { dispatch, state } = useQuestionsContext();
+  const { setAlert } = useGlobalContext();
   const [formData, setFormData] = React.useState({
     difficulty: "easy",
     topics: [],
@@ -48,11 +51,15 @@ function SingleConfigPage() {
       type: "update_single_start_status",
       payload: false,
     });
-    dispatch({ type: "reset_single_config" });
+    // dispatch({ type: "reset_single_config" });
   }, [dispatch]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (formData.topics.length === 0) {
+      setAlert("error", "Please choose at least one topic");
+      return;
+    }
     dispatch({
       type: "update_single_preference",
       payload: { difficulty: formData.difficulty, topics: formData.topics },
@@ -92,10 +99,10 @@ function SingleConfigPage() {
   };
 
   return (
-    <ContentContainer className="flex justify-center items-center flex-col">
+    <ContentContainer className="flex justify-center items-center py-10 flex-col">
       <div className="flex shadow-xl flex-col md:w-[30vw] md:min-w-[500px] w-[80vw]">
-        <div className="bg-gray-900 py-2 px-4 font-space font-bold text-white w-full">
-          <h1 className="text-3xl">constructor()</h1>
+        <div className="bg-gray-900 py-2 px-4 font-space flex gap-4 items-center justify-between font-bold text-white w-full">
+          <h1 className="text-3xl inline">constructor()</h1>
         </div>
 
         <form
@@ -138,12 +145,40 @@ function SingleConfigPage() {
             </div>
             <span className="text-white mt-2 inline-block font-space">];</span>
           </div>
-          <button
-            type="submit"
-            className="bg-blue-600 hover:bg-blue-800 font-space transition-all text-white self-start shadow-lg py-1 px-2"
-          >
-            this.begin()
-          </button>
+          <div className="flex justify-between">
+            <button
+              type="submit"
+              className="bg-blue-600 font-bold hover:bg-blue-800 font-space transition-all text-white self-start shadow-lg py-1 px-2"
+            >
+              this.begin()
+            </button>
+
+            <Switch.Group>
+              <div className="flex items-center gap-2">
+                <Switch.Label className="font-space text-white">
+                  Ranked
+                </Switch.Label>
+                <Switch
+                  checked={state.single.ranked}
+                  onChange={() => {
+                    dispatch({
+                      type: "update_single_ranked",
+                      payload: !state.single.ranked,
+                    });
+                  }}
+                  className={`${
+                    state.single.ranked ? "bg-blue-600" : "bg-gray-200"
+                  } relative inline-flex h-6 w-11 items-center rounded-full transition-colors outline-none `}
+                >
+                  <span
+                    className={`${
+                      state.single.ranked ? "translate-x-6" : "translate-x-1"
+                    } inline-block h-4 w-4 transform rounded-full bg-white transition-transform`}
+                  />
+                </Switch>
+              </div>
+            </Switch.Group>
+          </div>
         </form>
       </div>
     </ContentContainer>

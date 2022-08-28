@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import ContentContainer from "../components/ContentContainer";
+import { useGlobalContext } from "../context";
 
 function RegisterPage() {
+  const { registerUser } = useGlobalContext();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
     passwordConfirmation: "",
-    course: "",
-    class: "",
+    course: "DIT",
+    cls: "",
   });
 
   const handleChange = (e) => {
@@ -17,6 +19,8 @@ function RegisterPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const { email, password, passwordConfirmation, course, cls } = formData;
+    registerUser(email, password, passwordConfirmation, course, cls);
   };
   return (
     <ContentContainer className="flex flex-col justify-center items-center">
@@ -93,15 +97,17 @@ function RegisterPage() {
             </select>
           </div>
           <div className="form-control font-mono flex flex-col">
-            <label className="text-white" htmlFor="class">
+            <label className="text-white" htmlFor="cls">
               Class
             </label>
             <input
+              onChange={handleChange}
               className="py-1 px-2 shadow-lg"
+              value={formData.cls}
               required
               type="text"
-              name="class"
-              id="class"
+              name="cls"
+              id="cls"
               placeholder="e.g. 1A/02"
             />
           </div>

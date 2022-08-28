@@ -8,12 +8,14 @@ const initialState = {
     topics: [],
     answer: null,
     stats: {},
+    ranked: false,
   },
 };
 
 const reducer = (state, action) => {
   const { type, payload } = action;
   switch (type) {
+    // single player
     case "update_single_preference":
       return { ...state, single: { ...state.single, ...payload } };
     case "update_single_start_status":
@@ -68,7 +70,8 @@ const reducer = (state, action) => {
           },
         };
       }
-
+    case "update_single_ranked":
+      return { ...state, single: { ...state.single, ranked: payload } };
     default:
       return state;
   }

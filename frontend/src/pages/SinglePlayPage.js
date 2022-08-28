@@ -6,7 +6,8 @@ import { useHistory } from "react-router-dom";
 import useTimer from "../components/useTimer";
 
 function SinglePlayPage() {
-  const { state, dispatch, fetchQuestion } = useQuestionsContext();
+  const { state, dispatch, fetchQuestion, updateScore } = useQuestionsContext();
+  const { single } = state;
   const inputRef = React.useRef();
   const [time, ended, minuteTime, increaseTime] = useTimer(30);
   const history = useHistory();
@@ -42,6 +43,9 @@ function SinglePlayPage() {
         payload: { correct: true, topic: state.single.currentTopic },
       });
       setCorrect(true);
+      if (single.ranked) {
+        updateScore(1);
+      }
     } else {
       setStat({ ...stat, all: stat.all + 1 });
       dispatch({
@@ -49,6 +53,9 @@ function SinglePlayPage() {
         payload: { correct: false, topic: state.single.currentTopic },
       });
       setCorrect(false);
+      if (single.ranked) {
+        updateScore(-1);
+      }
     }
     setAnswer("");
     inputRef.current.focus();

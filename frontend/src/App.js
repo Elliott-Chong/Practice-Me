@@ -1,7 +1,7 @@
 import Navbar from "./components/Navbar";
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect, useLocation } from "react-router-dom";
 import RegisterPage from "./pages/RegisterPage";
 import QuestionsContext from "./questionsContext";
 import "./css/custom.css";
@@ -16,8 +16,10 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
+  const location = useLocation();
   const {
     dispatch,
+    loadUser,
     state: { user, loading },
   } = useGlobalContext();
   React.useEffect(() => {
@@ -27,7 +29,8 @@ function App() {
     document.getElementById("main-container").style.paddingTop =
       navHeight + "px";
     dispatch({ type: "SET_NAV_HEIGHT", payload: navHeight });
-  }, [dispatch]);
+    loadUser();
+  }, [dispatch, location, loadUser]);
   return (
     <>
       <Navbar />
@@ -37,12 +40,26 @@ function App() {
           <Route exact path={"/login"}>
             {user && !loading ? <Redirect to="/" /> : <LoginPage />}
           </Route>
-          <Route path="/register" exact component={RegisterPage} />
+          <Route exact path={"/register"}>
+            {user && !loading ? <Redirect to="/" /> : <RegisterPage />}
+          </Route>
           <QuestionsContext>
             <PrivateRoute path="/play" exact component={PlayMainPage} />
-            <Route path="/single-play" exact component={SinglePlayPage} />
-            <Route path="/single-config" exact component={SingleConfigPage} />
-            <Route path="/single-results" exact component={SingleResultsPage} />
+            <PrivateRoute
+              path="/single-play"
+              exact
+              component={SinglePlayPage}
+            />
+            <PrivateRoute
+              path="/single-config"
+              exact
+              component={SingleConfigPage}
+            />
+            <PrivateRoute
+              path="/single-results"
+              exact
+              component={SingleResultsPage}
+            />
           </QuestionsContext>
         </Switch>
       </main>

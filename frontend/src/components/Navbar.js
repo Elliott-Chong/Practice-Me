@@ -1,12 +1,13 @@
 import React, { useRef } from "react";
 import { Link } from "react-router-dom";
 import { useGlobalContext } from "../context";
+import { LogoutIcon } from "@heroicons/react/outline";
 
 function Navbar() {
   const hamRef = useRef();
   const ulRef = useRef();
 
-  const { state } = useGlobalContext();
+  const { state, logOut } = useGlobalContext();
   const { user } = state;
 
   const toggleMenu = () => {
@@ -29,7 +30,7 @@ function Navbar() {
       <ul
         id="nav-content"
         ref={ulRef}
-        className="md:flex flex-col md:flex-row md:space-x-8 text-xl text-white font-bold font-space ml-auto"
+        className="md:flex flex-col md:flex-row gap-4 text-xl text-white font-bold font-space ml-auto"
       >
         {user && (
           <>
@@ -37,6 +38,14 @@ function Navbar() {
               <Link className="nav-item" onClick={toggleMenu} to="/play">
                 Play
               </Link>
+            </li>
+            <li className="flex items-center cursor-pointer">
+              <span
+                onClick={logOut}
+                className="transition duration-200 hover:-translate-y-[3px]"
+              >
+                <LogoutIcon className="w-6 h-6" />
+              </span>
             </li>
           </>
         )}
