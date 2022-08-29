@@ -90,10 +90,13 @@ function RegisterPage() {
               id="course"
               required
             >
-              <option value="dit">DIT</option>
-              <option value="dcitp">DCITP</option>
-              <option value="dism">DISM</option>
-              <option value="daa">DAAA</option>
+              <option disabled selected>
+                Choose Course
+              </option>
+              <option value="DAAA">DAAA</option>
+              <option value="DCITP">DCITP</option>
+              <option value="DISM">DISM</option>
+              <option value="DIT">DIT</option>
             </select>
           </div>
           <div className="form-control font-mono flex flex-col">
