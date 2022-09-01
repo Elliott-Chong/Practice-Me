@@ -47,7 +47,8 @@ router.post("/", (req, res) => {
     let answer = template.generateAnswer(qn[1]);
     res.json({ question, answer });
   } catch (error) {
-    console.error(error);
+    // console.error(error);
+    console.log("questions error");
     return res.status(500).send("Server error in @POST /api/questions");
   }
 });
