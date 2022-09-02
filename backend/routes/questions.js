@@ -52,4 +52,7 @@ router.post("/", (req, res) => {
     return res.status(500).send("Server error in @POST /api/questions");
   }
 });
+
+router.get("/multi", async (req, res) => {});
+
 module.exports = router;

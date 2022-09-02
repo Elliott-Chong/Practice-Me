@@ -19,12 +19,12 @@ CREATE TABLE IF NOT EXISTS Users (
 -- @block
 INSERT INTO Users (email, password, name, course, avatar, score)
 VALUES (
-        'CHONGZ.22@ichat.sp.edu.sg',
+        'xxxwOGgjZ.2@ichat.sp.edu.sg',
         '$2a$10$sjVzXuGHkBGU5Wjssj7cG.9mrWkgUbTSWBLe6Uf1GL9tukjWAVTlq',
         'CHONGZ',
         'DIT',
         'https://lh3.googleusercontent.com/a-/AFdZucr6TBC8jzwRugHT_eHDVWCtlojnWn99HT8kDsyo=s96-c',
-        934
+        0
     ) --
     -- @block
 SELECT id,

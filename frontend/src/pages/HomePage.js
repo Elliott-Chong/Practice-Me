@@ -75,7 +75,7 @@ function HomePage() {
                       key={idx}
                       className={`${
                         user.id === state.user?.id &&
-                        "bg-red-600 font-bold sticky bottom-0"
+                        "bg-red-600 font-bold sticky bottom-0 top-0"
                       }`}
                     >
                       <td>{idx + 1}</td>

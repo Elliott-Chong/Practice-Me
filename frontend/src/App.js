@@ -14,6 +14,7 @@ import SinglePlayPage from "./pages/SinglePlayPage";
 import PrivateRoute from "./components/PrivateRoute";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import MultiPlay from "./pages/MultiPlay";
 
 function App() {
   const location = useLocation();
@@ -45,6 +46,7 @@ function App() {
           </Route>
           <QuestionsContext>
             <PrivateRoute path="/play" exact component={PlayMainPage} />
+            {/* single player */}
             <PrivateRoute
               path="/single-play"
               exact
@@ -60,6 +62,8 @@ function App() {
               exact
               component={SingleResultsPage}
             />
+            {/* multiplayer */}
+            <PrivateRoute path="/multi" exact component={MultiPlay} />
           </QuestionsContext>
         </Switch>
       </main>
