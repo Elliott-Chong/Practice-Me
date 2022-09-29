@@ -15,6 +15,8 @@ import PrivateRoute from "./components/PrivateRoute";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import MultiPlay from "./pages/MultiPlay";
+import MultiConfigPage from "./pages/MultiConfigPage";
+import MultiResultsPage from "./pages/MultiResultsPage";
 
 function App() {
   const location = useLocation();
@@ -63,7 +65,28 @@ function App() {
               component={SingleResultsPage}
             />
             {/* multiplayer */}
-            <PrivateRoute path="/multi" exact component={MultiPlay} />
+            <PrivateRoute path="/multi-play/:id" exact component={MultiPlay} />
+            <PrivateRoute
+              path="/multi-config"
+              exact
+              component={MultiConfigPage}
+            />
+            <PrivateRoute
+              path="/multi-result/:id"
+              exact
+              component={MultiResultsPage}
+            />
+
+            {/* 404 route */}
+            {/* <Route
+              exact
+              path="*"
+              component={() => (
+                <>
+                  <h1>PAGE NOT FOUND</h1>
+                </>
+              )}
+            /> */}
           </QuestionsContext>
         </Switch>
       </main>

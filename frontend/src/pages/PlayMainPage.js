@@ -46,7 +46,14 @@ function PlayMainPage() {
         >
           <div className="bg-gray-900 w-full h-full top-[-100%] flex flex-col gap-2 justify-center items-center group-hover:top-0 right-0 transition-all duration-[250ms] absolute">
             <button className="btn">Join room</button>
-            <button className="btn">Create room</button>
+            <button
+              onClick={() => {
+                history.push(`/multi-config`);
+              }}
+              className="btn"
+            >
+              Create room
+            </button>
             <button className="btn">Join random</button>
           </div>
           <img src={pvpimg} alt="pvp" />

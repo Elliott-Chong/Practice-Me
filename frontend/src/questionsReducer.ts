@@ -1,3 +1,37 @@
+type stateType = {
+  single: {
+    started: Boolean,
+    ended: Boolean,
+    currentTopic: String,
+    question: any,
+    difficulty: String,
+    topics: [],
+    answer: null,
+    stats: any,
+    ranked: false,
+  },
+  multi: {
+    started: Boolean,
+    ended: Boolean,
+    ranked: Boolean,
+    topics: [],
+    difficulty: String,
+    me: {
+      currentTopic: String,
+      question: any,
+      answer: any,
+      stats: any,
+    },
+    them: {
+      currentTopic: any,
+      question: any,
+      answer: any,
+      stats: any,
+    },
+  },
+}
+
+
 const initialState = {
   single: {
     started: false,
@@ -10,9 +44,28 @@ const initialState = {
     stats: {},
     ranked: false,
   },
+  multi: {
+    started: false,
+    ended: false,
+    ranked: false,
+    topics: [],
+    difficulty: "easy",
+    me: {
+      currentTopic: null,
+      question: null,
+      answer: null,
+      stats: {},
+    },
+    them: {
+      currentTopic: null,
+      question: null,
+      answer: null,
+      stats: {},
+    },
+  },
 };
 
-const reducer = (state, action) => {
+const reducer = (state:stateType, action:any) => {
   const { type, payload } = action;
   switch (type) {
     // single player
@@ -71,7 +124,25 @@ const reducer = (state, action) => {
         };
       }
     case "update_single_ranked":
-      return { ...state, single: { ...state.single, ranked: payload } };
+      state.single.ranked = payload;
+      return;
+
+    // multi player
+    case "update_multi_preference":
+      return {...state, multi: {...state.multi, ...payload}}
+    case "update_multi_start_status":
+      state.multi.started = payload
+      break
+    case "update_multi_end_status":
+      state.multi.ended = payload
+      break
+    case "reset_multi_config":
+      return {...state, multi: initialState.multi}
+    case 'update_multi_ranked':
+      state.multi.ranked = payload
+      break
+    
+
     default:
       return state;
   }

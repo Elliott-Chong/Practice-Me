@@ -1,18 +1,20 @@
 import { initialState, reducer } from "./questionsReducer";
 import React, { createContext, useContext, useEffect, useReducer } from "react";
 import axios from "axios";
+import produce from "immer";
 
 const QuestionsContext = createContext();
 
 const Context = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(produce(reducer), initialState);
   useEffect(() => {
     console.log(state);
   }, [state]);
   let currentTopic =
-    state.single?.topics[
+    state?.single?.topics[
       Math.floor(Math.random() * state.single.topics?.length)
     ];
+
   const fetchQuestion = React.useCallback(async () => {
     const config = {
       headers: {

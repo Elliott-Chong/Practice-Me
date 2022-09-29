@@ -5,6 +5,30 @@ import { useQuestionsContext } from "../questionsContext";
 import { Switch } from "@headlessui/react";
 import { useGlobalContext } from "../context";
 
+function copyToClipboard(textToCopy) {
+  // navigator clipboard api needs a secure context (https)
+  if (navigator.clipboard && window.isSecureContext) {
+    // navigator clipboard api method'
+    return navigator.clipboard.writeText(textToCopy);
+  } else {
+    // text area method
+    let textArea = document.createElement("textarea");
+    textArea.value = textToCopy;
+    // make the textarea out of viewport
+    textArea.style.position = "fixed";
+    textArea.style.left = "-999999px";
+    textArea.style.top = "-999999px";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    return new Promise((res, rej) => {
+      // here the magic happens
+      document.execCommand("copy") ? res() : rej();
+      textArea.remove();
+    });
+  }
+}
+
 const all_topics = [
   "array",
   "boolean",
@@ -38,20 +62,24 @@ function TopicBox({ topic, handleChange }) {
   );
 }
 
-function SingleConfigPage() {
+function MultiConfigPage() {
   const history = useHistory();
   const { dispatch, state } = useQuestionsContext();
-  const { setAlert } = useGlobalContext();
+  const { setAlert, generateRoomCode } = useGlobalContext();
+  const [roomCode, setRoomCode] = React.useState("");
   const [formData, setFormData] = React.useState({
     difficulty: "easy",
     topics: [],
   });
   React.useEffect(() => {
+    setRoomCode(generateRoomCode());
+  }, []);
+  React.useEffect(() => {
     dispatch({
-      type: "update_single_start_status",
+      type: "update_multi_start_status",
       payload: false,
     });
-    // dispatch({ type: "reset_single_config" });
+    // dispatch({ type: "reset_multi_config" });
   }, [dispatch]);
 
   const handleSubmit = (e) => {
@@ -61,14 +89,14 @@ function SingleConfigPage() {
       return;
     }
     dispatch({
-      type: "update_single_preference",
+      type: "update_multi_preference",
       payload: { difficulty: formData.difficulty, topics: formData.topics },
     });
     dispatch({
-      type: "update_single_start_status",
+      type: "update_multi_start_status",
       payload: true,
     });
-    history.push("/single-play");
+    history.push("/multi-play/" + roomCode);
   };
 
   const handleChange = (e) => {
@@ -159,20 +187,20 @@ function SingleConfigPage() {
                   Ranked
                 </Switch.Label>
                 <Switch
-                  checked={state.single.ranked}
+                  checked={state.multi.ranked}
                   onChange={() => {
                     dispatch({
-                      type: "update_single_ranked",
-                      payload: !state.single.ranked,
+                      type: "update_multi_ranked",
+                      payload: !state.multi.ranked,
                     });
                   }}
                   className={`${
-                    state.single.ranked ? "bg-blue-600" : "bg-gray-200"
+                    state.multi.ranked ? "bg-blue-600" : "bg-gray-200"
                   } relative inline-flex h-6 w-11 items-center rounded-full transition-colors outline-none `}
                 >
                   <span
                     className={`${
-                      state.single.ranked ? "translate-x-6" : "translate-x-1"
+                      state.multi.ranked ? "translate-x-6" : "translate-x-1"
                     } inline-block h-4 w-4 transform rounded-full bg-white transition-transform`}
                   />
                 </Switch>
@@ -180,9 +208,22 @@ function SingleConfigPage() {
             </Switch.Group>
           </div>
         </form>
+        {/* room code */}
+        <div className="bg-gray-900 py-4 px-4 font-space flex gap-4 items-center font-bold text-white w-full">
+          <h1 className="text-3xl inline">{roomCode}</h1>
+          <button
+            className="btn"
+            onClick={() => {
+              copyToClipboard(roomCode);
+              setAlert("success", "Copied!");
+            }}
+          >
+            copy code
+          </button>
+        </div>
       </div>
     </ContentContainer>
   );
 }
 
-export default SingleConfigPage;
+export default MultiConfigPage;

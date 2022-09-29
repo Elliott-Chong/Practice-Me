@@ -86,6 +86,17 @@ const Context = ({ children }) => {
     }
   };
 
+  const generateRoomCode = () => {
+    var characters = "abcdefghijklmnopqrstuvwxyz";
+    var result = "";
+    var charactersLength = characters.length;
+
+    for (var i = 0; i < 5; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+  };
+
   const getAllUsers = React.useCallback(async () => {
     try {
       const response = await axios.get("/api/auth/all");
@@ -99,6 +110,7 @@ const Context = ({ children }) => {
     <AppContext.Provider
       value={{
         state,
+        generateRoomCode,
         dispatch,
         setAlert,
         loginUser,
