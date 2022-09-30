@@ -1,11 +1,13 @@
 const express = require("express");
 const cors = require("cors");
+const { generateRoomCode } = require("./utils.js");
 
 const app = express();
 const http = require("http");
 const server = http.createServer(app);
 const PORT = 5000;
 const socketio = require("socket.io");
+const auth = require("./auth_middleware.js");
 const io = socketio(server, {
   cors: {
     origin: "*",
@@ -18,45 +20,56 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send("practiceMe server running");
 });
+// room logic
+let games = new Map();
+let clients = new Map();
 
 app.use("/api/questions", require("./routes/questions"));
 app.use("/api/auth", require("./routes/auth"));
+app.post("/create-room", auth, async (req, res) => {
+  const { difficulty, topics, ranked } = req.body;
+  const room_code = generateRoomCode();
+  games.set(room_code, {
+    code: room_code,
+    clients: [],
+    topics,
+    difficulty,
+    ranked,
+  });
+  return res.status(200).json({ code: room_code });
+});
 
-// room logic
-let rooms = {};
+setInterval(() => {
+  console.log(games);
+}, 2000);
 
 io.on("connection", (socket) => {
-  console.log("user connected", socket.id);
+  console.log(socket.id, "connected");
+  clients.set(socket.id, socket);
+  socket.emit("client_id", socket.id);
   socket.on("disconnect", () => {
-    console.log("user disconnected", socket.id);
-    for (let room in rooms) {
-      for (let person of rooms[room]) {
-        if (person.id == socket.id) {
-          io.to(room).emit("game status", { status: false });
-        }
+    for (let [key, value] of games.entries()) {
+      let game = games.get(key);
+      for (let c of game.clients) {
+        game.clients = game.clients.filter((client) => client.id !== socket.id);
       }
-      rooms[room] = rooms[room].filter((person) => person.id != socket.id);
-      if (rooms[room].length == 0) delete rooms[room];
+      if (games.get(key).clients.length === 0) {
+        games.delete(key);
+      }
     }
-    console.log(rooms);
+    console.log(socket.id, "disconnected");
   });
-  socket.on("start game", (roomCode) => {
-    io.to(roomCode).emit("start game");
-  });
-  socket.on("join room", (roomCode, email) => {
-    socket.join(roomCode);
-    if (rooms.hasOwnProperty(roomCode)) {
-      rooms[roomCode].push({ email, id: socket.id });
-    } else {
-      rooms[roomCode] = [{ email, id: socket.id }];
+
+  socket.on("join", (payload) => {
+    const { game_code, name } = payload;
+    socket.join(game_code);
+    if (!games.has(game_code)) {
+      console.error("game code doesnt exit");
+      return;
     }
-    console.log(rooms);
-    if (rooms[roomCode].length == 2) {
-      io.to(roomCode).emit("game status", {
-        status: true,
-        players: rooms[roomCode],
-      });
-    }
+    let game = games.get(game_code);
+    game.clients.push({ name, id: socket.id });
+    io.to(game_code).emit("join", game);
   });
 });
 

@@ -4,30 +4,7 @@ import { useHistory } from "react-router-dom";
 import { useQuestionsContext } from "../questionsContext";
 import { Switch } from "@headlessui/react";
 import { useGlobalContext } from "../context";
-
-function copyToClipboard(textToCopy) {
-  // navigator clipboard api needs a secure context (https)
-  if (navigator.clipboard && window.isSecureContext) {
-    // navigator clipboard api method'
-    return navigator.clipboard.writeText(textToCopy);
-  } else {
-    // text area method
-    let textArea = document.createElement("textarea");
-    textArea.value = textToCopy;
-    // make the textarea out of viewport
-    textArea.style.position = "fixed";
-    textArea.style.left = "-999999px";
-    textArea.style.top = "-999999px";
-    document.body.appendChild(textArea);
-    textArea.focus();
-    textArea.select();
-    return new Promise((res, rej) => {
-      // here the magic happens
-      document.execCommand("copy") ? res() : rej();
-      textArea.remove();
-    });
-  }
-}
+import axios from "axios";
 
 const all_topics = [
   "array",
@@ -65,15 +42,11 @@ function TopicBox({ topic, handleChange }) {
 function MultiConfigPage() {
   const history = useHistory();
   const { dispatch, state } = useQuestionsContext();
-  const { setAlert, generateRoomCode } = useGlobalContext();
-  const [roomCode, setRoomCode] = React.useState("");
+  const { setAlert } = useGlobalContext();
   const [formData, setFormData] = React.useState({
     difficulty: "easy",
     topics: [],
   });
-  React.useEffect(() => {
-    setRoomCode(generateRoomCode());
-  }, []);
   React.useEffect(() => {
     dispatch({
       type: "update_multi_start_status",
@@ -82,7 +55,7 @@ function MultiConfigPage() {
     // dispatch({ type: "reset_multi_config" });
   }, [dispatch]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.topics.length === 0) {
       setAlert("error", "Please choose at least one topic");
@@ -96,7 +69,17 @@ function MultiConfigPage() {
       type: "update_multi_start_status",
       payload: true,
     });
-    history.push("/multi-play/" + roomCode);
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const body = JSON.stringify({ ...formData, ranked: state.multi.ranked });
+
+    const response = await axios.post("/create-room", body, config);
+    history.push("/multi-play/" + response.data.code);
   };
 
   const handleChange = (e) => {
@@ -178,7 +161,7 @@ function MultiConfigPage() {
               type="submit"
               className="bg-blue-600 font-bold hover:bg-blue-800 font-space transition-all text-white self-start shadow-lg py-1 px-2"
             >
-              this.begin()
+              new Room()
             </button>
 
             <Switch.Group>
@@ -208,19 +191,6 @@ function MultiConfigPage() {
             </Switch.Group>
           </div>
         </form>
-        {/* room code */}
-        <div className="bg-gray-900 py-4 px-4 font-space flex gap-4 items-center font-bold text-white w-full">
-          <h1 className="text-3xl inline">{roomCode}</h1>
-          <button
-            className="btn"
-            onClick={() => {
-              copyToClipboard(roomCode);
-              setAlert("success", "Copied!");
-            }}
-          >
-            copy code
-          </button>
-        </div>
       </div>
     </ContentContainer>
   );
