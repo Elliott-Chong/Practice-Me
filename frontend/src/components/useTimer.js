@@ -13,7 +13,15 @@ function useTimer(initialTime) {
     }
   };
 
+  const manualSetTime = (time) => {
+    setTime(time);
+    setMinuteTime(time);
+  };
+
+  const [startCounting, setStartCounting] = React.useState(false);
+
   React.useEffect(() => {
+    if (!startCounting) return;
     let minuteTimeInterval = setInterval(() => {
       setMinuteTime((minuteTime) => minuteTime - 0.1);
     }, 100);
@@ -26,7 +34,7 @@ function useTimer(initialTime) {
       clearInterval(timeInterval);
       clearInterval(minuteTimeInterval);
     };
-  }, []);
+  }, [startCounting]);
   React.useEffect(() => {
     setMinuteTime(time);
   }, [time]);
@@ -35,7 +43,14 @@ function useTimer(initialTime) {
       setEnded(true);
     }
   }, [time]);
-  return [time, ended, minuteTime, increaseTime];
+  return [
+    time,
+    ended,
+    minuteTime,
+    increaseTime,
+    manualSetTime,
+    setStartCounting,
+  ];
 }
 
 export default useTimer;

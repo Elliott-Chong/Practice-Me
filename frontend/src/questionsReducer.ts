@@ -1,4 +1,4 @@
-type stateType = {
+interface stateInterface {
   single: {
     started: Boolean,
     ended: Boolean,
@@ -16,27 +16,19 @@ type stateType = {
     ranked: Boolean,
     topics: [],
     difficulty: String,
-    me: {
-      currentTopic: String,
-      question: any,
-      answer: any,
-      stats: any,
-    },
-    them: {
-      currentTopic: any,
-      question: any,
-      answer: any,
-      stats: any,
-    },
+    currentTopic: String,
+    question: String,
+    answer: String | Number
+    stats: any
   },
 }
 
 
-const initialState = {
+const initialState: stateInterface = {
   single: {
     started: false,
     ended: false,
-    currentTopic: null,
+    currentTopic: '',
     question: null,
     difficulty: "easy",
     topics: [],
@@ -50,22 +42,14 @@ const initialState = {
     ranked: false,
     topics: [],
     difficulty: "easy",
-    me: {
-      currentTopic: null,
-      question: null,
-      answer: null,
-      stats: {},
-    },
-    them: {
-      currentTopic: null,
-      question: null,
-      answer: null,
-      stats: {},
-    },
+    currentTopic: '',
+    question: '',
+    answer: '',
+    stats: {}
   },
 };
 
-const reducer = (state:stateType, action:any) => {
+const reducer = (state:stateInterface, action:any) => {
   const { type, payload } = action;
   switch (type) {
     // single player
@@ -128,6 +112,32 @@ const reducer = (state:stateType, action:any) => {
       return;
 
     // multi player
+    case 'update_multi_stats':
+      {
+
+        const {correct, topic} = payload
+        if (state.multi.stats.hasOwnProperty(topic)) {
+          let updated_all = state.multi.stats[topic].all + 1
+          let updated_correct = correct ? state.multi.stats[topic].correct+1:state.multi.stats[topic].correct
+          state.multi.stats[topic].correct = updated_correct
+          state.multi.stats[topic].all = updated_all
+            break
+        }
+        else {
+          state.multi.stats[topic] = {
+            all: 1,
+            correct: correct?1:0
+          }
+          break
+        }
+      }
+
+
+    case "set_multi_question":
+      state.multi.question = payload.question
+      state.multi.answer = payload.answer
+      state.multi.currentTopic = payload.currentTopic
+      break
     case "update_multi_preference":
       return {...state, multi: {...state.multi, ...payload}}
     case "update_multi_start_status":

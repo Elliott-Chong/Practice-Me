@@ -9,7 +9,7 @@ function SinglePlayPage() {
   const { state, dispatch, fetchQuestion, updateScore } = useQuestionsContext();
   const { single } = state;
   const inputRef = React.useRef();
-  const [time, ended, minuteTime, increaseTime] = useTimer(30);
+  const [time, ended, minuteTime, increaseTime] = useTimer(1000);
   const history = useHistory();
 
   React.useEffect(() => {
@@ -86,21 +86,23 @@ function SinglePlayPage() {
 
   return (
     <ContentContainer className="flex justify-center items-center flex-col">
-      <h1 className="text-white text-3xl font-karla font-bold">
+      <div className="text-white items-center flex gap-3 text-3xl font-karla font-bold">
         {stat.correct}/{stat.all}
-        <span className="ml-4 text-2xl font-normal font-mono text-yellow-300">
+        <span className="text-2xl font-normal font-mono text-yellow-600">
           (
           {stat.all === 0
             ? "0.00"
             : ((stat.correct / stat.all) * 100).toFixed(2)}
           )%
         </span>
-        <span className="ml-4">{time}s</span>
-      </h1>
+        <span className="">{time}s</span>
+      </div>
       <div className="w-[85vw] max-w-[500px]">
         <div
           className="timer"
-          style={{ "--timer-percentage": 100 - (minuteTime / 30) * 100 + "%" }}
+          style={{
+            "--timer-percentage": 100 - (minuteTime / 1000) * 100 + "%",
+          }}
         ></div>
         <CodeSnippet correct={correct} question={state.single.question} />
         <form

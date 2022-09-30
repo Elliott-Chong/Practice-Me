@@ -39,9 +39,9 @@ app.post("/create-room", auth, async (req, res) => {
   return res.status(200).json({ code: room_code });
 });
 
-setInterval(() => {
-  console.log(games);
-}, 2000);
+// setInterval(() => {
+//   console.log(games);
+// }, 2000);
 
 io.on("connection", (socket) => {
   console.log(socket.id, "connected");
@@ -53,23 +53,54 @@ io.on("connection", (socket) => {
       for (let c of game.clients) {
         game.clients = game.clients.filter((client) => client.id !== socket.id);
       }
-      if (games.get(key).clients.length === 0) {
+      if (game.clients.length === 0) {
         games.delete(key);
       }
+      io.to(game.code).emit("join", game);
     }
     console.log(socket.id, "disconnected");
   });
 
   socket.on("join", (payload) => {
     const { game_code, name } = payload;
-    socket.join(game_code);
     if (!games.has(game_code)) {
       console.error("game code doesnt exit");
+      socket.emit("error", { msg: "Room does not exist" });
       return;
     }
+    socket.join(game_code);
     let game = games.get(game_code);
-    game.clients.push({ name, id: socket.id });
+    if (game.clients.length == 2) {
+      socket.emit("error", { msg: "Room is already full" });
+      return;
+    }
+    let client = {
+      name,
+      id: socket.id,
+      owner: false,
+    };
+    if (game.clients.length === 0) {
+      // the new client is the owner / creater of the room
+      client.owner = true;
+    }
+    game.clients.push(client);
     io.to(game_code).emit("join", game);
+  });
+
+  socket.on("start", (game_code) => {
+    io.to(game_code).emit("start");
+  });
+
+  socket.on("play", (payload) => {
+    // {
+    //   room_code: 'plnyf',
+    //   question: 'sdfsdf',
+    //   answer: 'sdfsdf',
+    //   time: 991,
+    //   correct: 'neutral'
+    //   topic: 'if-else'
+    // }
+    socket.to(payload.room_code).emit("update other", payload);
   });
 });
 

@@ -17,6 +17,7 @@ import "react-toastify/dist/ReactToastify.css";
 import MultiPlay from "./pages/MultiPlay";
 import MultiConfigPage from "./pages/MultiConfigPage";
 import MultiResultsPage from "./pages/MultiResultsPage";
+import MultiJoinPage from "./pages/MultiJoinPage";
 
 function App() {
   const location = useLocation();
@@ -66,6 +67,7 @@ function App() {
             />
             {/* multiplayer */}
             <PrivateRoute path="/multi-play/:id" exact component={MultiPlay} />
+            <PrivateRoute path="/multi-join" exact component={MultiJoinPage} />
             <PrivateRoute
               path="/multi-config"
               exact
