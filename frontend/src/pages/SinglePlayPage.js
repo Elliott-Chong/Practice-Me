@@ -9,13 +9,22 @@ function SinglePlayPage() {
   const { state, dispatch, fetchQuestion, updateScore } = useQuestionsContext();
   const { single } = state;
   const inputRef = React.useRef();
-  const [time, ended, minuteTime, increaseTime] = useTimer(1000);
+  const [
+    time,
+    ended,
+    minuteTime,
+    increaseTime,
+    // eslint-disable-next-line
+    manualSetTime,
+    setStartCounting,
+  ] = useTimer(1000);
   const history = useHistory();
 
   React.useEffect(() => {
     if (!state.single.started) {
       history.push("/single-config");
     } else {
+      setStartCounting(true);
       fetchQuestion();
     }
     //eslint-disable-next-line

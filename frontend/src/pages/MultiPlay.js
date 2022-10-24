@@ -8,8 +8,9 @@ import { MagnifyingGlass } from "react-loader-spinner";
 import CodeSnippet from "../components/CodeSnippet";
 import useTimer from "../components/useTimer";
 import produce from "immer";
+import { useHistory } from "react-router-dom";
 
-const TIME = 1000;
+const TIME = 10;
 
 function UserCard({ user, ...props }) {
   return (
@@ -24,6 +25,7 @@ function UserCard({ user, ...props }) {
 }
 
 const MultiPlay = ({ match }) => {
+  const history = useHistory();
   const { state, updateScore, dispatch, multiFetchQuestion } =
     useQuestionsContext();
   const { state: globalState, setAlert } = useGlobalContext();
@@ -55,7 +57,7 @@ const MultiPlay = ({ match }) => {
   });
 
   const [other, setOther] = React.useState({
-    stat: {},
+    stats: {},
     time: 0,
     question: "",
     correct: null,
@@ -69,11 +71,12 @@ const MultiPlay = ({ match }) => {
 
   const socketRef = React.useRef();
 
-  const handleEnd = (e) => {
-    e.preventDefault();
-    dispatch({ type: "update_multi_end_status", payload: true });
-    window.location.href = "/multi-result";
-  };
+  React.useEffect(() => {
+    if (ended || otherEnded) {
+      dispatch({ type: "update_multi_end_status", payload: true });
+      history.push("/multi-results");
+    }
+  }, [ended, otherEnded, dispatch, history]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -119,13 +122,31 @@ const MultiPlay = ({ match }) => {
       } else {
         correct = "neutral";
       }
-      let new_time = correct ? Math.min(TIME, time + 5) : time;
+      let new_time = correct === true ? Math.min(TIME, time + 5) : time;
+
+      const topic = state.multi.currentTopic;
+      let new_stats = JSON.parse(JSON.stringify(state.multi.stats));
+      if (new_stats.hasOwnProperty(topic)) {
+        let updated_all = new_stats[topic].all + 1;
+        let updated_correct =
+          correct === true
+            ? new_stats[topic].correct + 1
+            : new_stats[topic].correct;
+        new_stats[topic].correct = updated_correct;
+        new_stats[topic].all = updated_all;
+      } else {
+        new_stats[topic] = {
+          all: correct !== "neutral" ? 1 : 0,
+          correct: correct === true ? 1 : 0,
+        };
+      }
+
       const payload = {
         room_code: id,
         question,
         time: new_time,
         correct,
-        topic: state.multi.currentTopic,
+        stats: new_stats,
       };
       socketRef.current.emit("play", payload);
       setAnswer("");
@@ -148,6 +169,14 @@ const MultiPlay = ({ match }) => {
       }, 1000);
     }
   }, [other]);
+
+  React.useEffect(() => {
+    if (!clients || clients.length === 0) return;
+    dispatch({
+      type: "set_other_name",
+      payload: clients.find((c) => c.id !== clientId)?.name,
+    });
+  }, [clients]);
 
   React.useEffect(() => {
     if (!state.multi.started) window.location.href = "/multi-config";
@@ -176,35 +205,19 @@ const MultiPlay = ({ match }) => {
       //   time: 991,
       //   correct: 'neutral'
       //   topic: 'if-else'
+      //   stats: {...}
       // }
 
-      const { question, time, correct, topic } = payload;
-      let stat = JSON.parse(JSON.stringify(other.stat));
-      console.log("old stat", stat);
-      if (topic !== "") {
-        if (stat.hasOwnProperty(topic)) {
-          console.log("does this never run");
-          let updated_all = stat[topic].all + 1;
-          let updated_correct = correct
-            ? stat[topic].correct + 1
-            : stat[topic].correct;
-          stat[topic].correct = updated_correct;
-          stat[topic].all = updated_all;
-        } else {
-          console.log("new cum");
-          stat[topic] = {
-            all: 1,
-            correct: correct ? 1 : 0,
-          };
-        }
-      }
-      console.log(stat);
-
+      const { question, time, correct, stats } = payload;
+      dispatch({
+        type: "set_other_stat",
+        payload: stats,
+      });
       setOther({
         correct,
         question,
         time,
-        stat,
+        stats,
       });
 
       otherManualSetTime(time);
@@ -216,7 +229,6 @@ const MultiPlay = ({ match }) => {
     });
 
     socket.on("join", (payload) => {
-      console.log(payload);
       const { topics, difficulty, ranked } = payload;
       dispatch({
         type: "update_multi_preference",
@@ -292,12 +304,12 @@ const MultiPlay = ({ match }) => {
               </>
             ) : (
               <div className="p-4 flex flex-col gap-4 justify-center items-center">
-                <div className="flex w-full gap-4">
-                  {clients.map((client) => {
+                <div className="md:flex-row flex flex-col w-full gap-4">
+                  {clients?.map((client) => {
                     return <UserCard key={client.id} user={client} />;
                   })}
                 </div>
-                {clients.find((client) => client.id === clientId).owner ? (
+                {clients?.find((client) => client.id === clientId).owner ? (
                   <>
                     <button
                       onClick={() => {
@@ -371,21 +383,23 @@ const MultiPlay = ({ match }) => {
                   next()
                 </button>
               </div>
-              <button
+              {/* <button
                 onClick={handleEnd}
                 className="text-white bg-sp-red hover:opacity-70 transition-all py-1 px-2"
               >
                 end session
-              </button>
+              </button> */}
             </form>
           </div>
 
           {/* other person */}
 
           <div className="text-white flex items-center gap-3 mt-4 text-3xl font-karla font-bold">
-            {Object.entries(other.stat).reduce((ps, a) => ps + a[1].correct, 0)}
-            /
-            {Object.entries(other.stat).reduce((ps, a) => ps + a[1].correct, 0)}
+            {Object.entries(other.stats).reduce(
+              (ps, a) => ps + a[1].correct,
+              0
+            )}
+            /{Object.entries(other.stats).reduce((ps, a) => ps + a[1].all, 0)}
             <span className="text-2xl fonr-bold font-mono text-yellow-600">
               {
                 clients.find((client) => client.name !== globalState.user.name)

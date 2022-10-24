@@ -61,7 +61,7 @@ function PlayMainPage() {
             >
               Create room
             </button>
-            <button className="btn">Join random</button>
+            {/* <button className="btn">Join random</button> */}
           </div>
           <img src={pvpimg} alt="pvp" />
         </div>

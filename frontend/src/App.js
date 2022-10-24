@@ -74,7 +74,7 @@ function App() {
               component={MultiConfigPage}
             />
             <PrivateRoute
-              path="/multi-result/:id"
+              path="/multi-results"
               exact
               component={MultiResultsPage}
             />

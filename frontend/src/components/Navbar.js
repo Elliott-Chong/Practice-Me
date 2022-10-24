@@ -21,7 +21,6 @@ function Navbar() {
         <span className="text-sp-red">practice</span>
         <span className="text-white">Me</span>
       </Link>
-      <span className="text-white">{user?.name}</span>
       <span
         onClick={toggleMenu}
         ref={hamRef}

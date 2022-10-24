@@ -8,7 +8,7 @@ const AppContext = createContext();
 const Context = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   useEffect(() => {
-    console.log(state);
+    // console.log(state);
   }, [state]);
 
   const logOut = () => {
